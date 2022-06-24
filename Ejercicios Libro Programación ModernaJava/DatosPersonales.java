@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class DatosPersonales{
     public static void main(String args[]){
-        String Nombre, Direccion, EntrEdad;
+        String Nombre, Direccion;
         byte Edad;
 
         Nombre = JOptionPane.showInputDialog("Ingrese su nombre por favor");
