@@ -26,9 +26,9 @@ public class Clase01Ejercicios {
                     case 11: ejercicio11(sc); break;
                     case 12: ejercicio12(sc); break;
                     case 13: ejercicio13(sc); break;
-                    // case 14: ejercicio14(); break;
-                    // case 15: ejercicio15(); break;
-                    // case 16: salir(); break;
+                    case 14: ejercicio14(sc); break;
+                    case 15: ejercicio15(sc); break;
+                    case 16: salir(); break;
                     default:
                         clearScreen();
                         System.out.println("\nValor no valido");
@@ -79,70 +79,161 @@ public class Clase01Ejercicios {
     }
     // ------------------
 
-    private static void ejercicio13(Scanner sc){
-        boolean continuarJugando = true;
-        String Nombre1, Nombre2, opcionJugador1, opcionJugador2, Resultado = "";
-        byte puntosJugador1 = 0, puntosJugador2 = 0;
-        Nombre1 = pedirCadena("Ingrese el nombre del Jugador 1: ", sc);
-        Nombre2 = pedirCadena("Ingrese el nombre del Jugador 2: ", sc);
-        
-        while(continuarJugando){
-            //Pedir al jugador que seleccione la opcion con la que desea jugar
-            opcionJugador1 = pedirCadena(Nombre1 + ": Piedra (P), Papel(L), Tijera(T) ?: ", sc);
-            opcionJugador2 = pedirCadena(Nombre2 + ": Piedra (P), Papel(L), Tijera(T) ?: ", sc);
+    private static void salir(){
+        System.out.println("Saliendo....");
+    }
 
-            if (opcionJugador1.equalsIgnoreCase("P")){  //Casos derivados para Piedra seleccionada por J1
-                if(opcionJugador2.equalsIgnoreCase("P")){
-                    Resultado = "EMPATE!! No hay puntos para ningún jugador";
-                }else if (opcionJugador2.equalsIgnoreCase("L")){
-                    Resultado = "Punto para " + Nombre2;
-                    puntosJugador2++;
-                }else if(opcionJugador2.equalsIgnoreCase("T")){
-                    Resultado = "Punto para " + Nombre1;
-                    puntosJugador1++;
-                }else{
-                    System.out.println("Ingrese una letra correcta!!");
-                }
-            }else if(opcionJugador1.equalsIgnoreCase("L")){ //Casos derivados para Papel seleccionado por J1
-                if(opcionJugador2.equalsIgnoreCase("L")){
-                    Resultado = "EMPATE!! No hay puntos para ningún jugador";
-                }else if (opcionJugador2.equalsIgnoreCase("P")){
-                    Resultado = "Punto para " + Nombre1;
-                    puntosJugador1++;
-                }else if(opcionJugador2.equalsIgnoreCase("T")){
-                    Resultado = "Punto para " + Nombre2;
-                    puntosJugador2++;
-                }else{
-                    System.out.println("Ingrese una letra correcta!!");
-                }
-            }else if(opcionJugador1.equalsIgnoreCase("T")){ //Casos derivados para Tijera seleccionado por J1
-                if(opcionJugador2.equalsIgnoreCase("T")){
-                    Resultado = "EMPATE!! No hay puntos para ningún jugador";
-                }else if (opcionJugador2.equalsIgnoreCase("P")){
-                    Resultado = "Punto para " + Nombre2;
-                    puntosJugador2++;
-                }else if(opcionJugador2.equalsIgnoreCase("L")){
-                    Resultado = "Punto para " + Nombre1;
-                    puntosJugador1++;
-                }else{
-                    System.out.println("Ingrese una letra correcta!!");
-                }
+    private static void ejercicio15(Scanner sc){
+        int Num = pedirEntero("Ingrese el numero hasta donde desea ver la serie de Fib: ", sc);
+        int ant = 0, actual = 1, sig;
+        System.out.printf("%d  ", ant);
+        while( actual < Num){
+            sig = ant + actual;
+            System.out.printf("%d  ", actual);
+            ant = actual;
+            actual = sig;
+        }
+    }
+
+    private static void ejercicio14(Scanner sc){
+        String Nombre;
+        int Edad;
+        double Salario;
+
+        Nombre = pedirCadena("Ingrese su nombre: ", sc);
+        Edad = pedirEntero("Ingrese su edad: ", sc);
+        Salario = pedirFlotante("Ingrese su salario: ", sc);
+
+        if (Edad >= 18){
+            if (Edad >= 30 && Edad <= 50){
+                Salario += (0.05 * Salario);
+            }else if (Edad >= 51 && Edad <= 60){
+                Salario += (0.1 * Salario);
+            }else if (Edad >= 61){
+                Salario += (0.15 * Salario);
+            }else{
+                System.out.println("No tienes derecho a bonificación.");
+            }
+            System.out.printf("%s tu salario será de: $%,d %n", Nombre, (int) Salario);
+        }else{
+            System.out.println("No tienes edad para trabajar.");
+        }
+    }
+
+    private static boolean verificarRonda(String Nombre1, String Nombre2, byte[] puntosJugadores, boolean[] banderaIrInicio, Scanner sc){
+    if (puntosJugadores[0] == 3 || puntosJugadores[1] == 3){
+        banderaIrInicio[0] = true; // Cuando uno de los dos jugadores haya ganado, debo ir a mostrar el menu de inicio del juego (Multiplayer o CPU)
+        if (puntosJugadores[0] == 3){
+            System.out.println("\n" + Nombre1 + " ha ganado la ronda!!!");
+        }else if(puntosJugadores[1] == 3){
+            System.out.println("\n" + Nombre2 + " ha ganado la ronda!!!");
+        }
+        return continuarIngresando("Desea jugar de nuevo?: ", sc);
+    }
+    return true;
+    }
+
+    private static void mostrarResultados(String Resultado, String Nombre1, String Nombre2, byte[] puntosJugadores, String opcionJugador1, String opcionJugador2){
+    clearScreen();
+    System.out.printf("%s sacó %s %n%s sacó %s %n", Nombre1, opcionJugador1, Nombre2, opcionJugador2);
+    System.out.println(Resultado);
+    System.out.printf("\tPuntos %s --> %d %n\tPuntos %s --> %d",Nombre1, puntosJugadores[0], Nombre2, puntosJugadores[1]);
+    }
+
+    private static boolean multijugador(Scanner sc, byte[] puntosJugadores, boolean[] banderaIrInicio, String Nombre1, String Nombre2, int opcion){
+        String opcionJugador1, opcionJugador2, Resultado = "";
+
+        opcionJugador1 = pedirCadena(Nombre1 + ": Piedra (P), Papel(L), Tijera(T) ?: ", sc);
+        if (opcion == 1){
+            //Pedir al jugador2 que seleccione la opcion con la que desea jugar
+            opcionJugador2 = pedirCadena(Nombre2 + ": Piedra (P), Papel(L), Tijera(T) ?: ", sc);
+        }else{
+            //Seleccionar la opcion de la CPU
+            String[] arrOpciones = {"P", "L", "T"};
+            opcionJugador2 = arrOpciones[(int) Math.round(Math.random() * 2)];
+        }
+
+        if (opcionJugador1.equalsIgnoreCase("P")){  //Casos derivados para Piedra seleccionada por J1
+            if(opcionJugador2.equalsIgnoreCase("P")){
+                Resultado = "EMPATE!! No hay puntos para ningún jugador";
+            }else if (opcionJugador2.equalsIgnoreCase("L")){
+                Resultado = "Punto para " + Nombre2;
+                puntosJugadores[1]++;
+            }else if(opcionJugador2.equalsIgnoreCase("T")){
+                Resultado = "Punto para " + Nombre1;
+                puntosJugadores[0]++;
             }else{
                 System.out.println("Ingrese una letra correcta!!");
             }
-            clearScreen();
-            System.out.println(Resultado);
-            System.out.printf("\tPuntos %s --> %d %n\tPuntos %s --> %d",Nombre1, puntosJugador1, Nombre2, puntosJugador2);
+        }else if(opcionJugador1.equalsIgnoreCase("L")){ //Casos derivados para Papel seleccionado por J1
+            if(opcionJugador2.equalsIgnoreCase("L")){
+                Resultado = "EMPATE!! No hay puntos para ningún jugador";
+            }else if (opcionJugador2.equalsIgnoreCase("P")){
+                Resultado = "Punto para " + Nombre1;
+                puntosJugadores[0]++;
+            }else if(opcionJugador2.equalsIgnoreCase("T")){
+                Resultado = "Punto para " + Nombre2;
+                puntosJugadores[1]++;
+            }else{
+                System.out.println("Ingrese una letra correcta!!");
+            }
+        }else if(opcionJugador1.equalsIgnoreCase("T")){ //Casos derivados para Tijera seleccionado por J1
+            if(opcionJugador2.equalsIgnoreCase("T")){
+                Resultado = "EMPATE!! No hay puntos para ningún jugador";
+            }else if (opcionJugador2.equalsIgnoreCase("P")){
+                Resultado = "Punto para " + Nombre2;
+                puntosJugadores[1]++;
+            }else if(opcionJugador2.equalsIgnoreCase("L")){
+                Resultado = "Punto para " + Nombre1;
+                puntosJugadores[0]++;
+            }else{
+                System.out.println("Ingrese una letra correcta!!");
+            }
+        }else{
+            System.out.println("Ingrese una letra correcta!!");
+            esperarEntrada(sc);
+        }
+        mostrarResultados(Resultado, Nombre1, Nombre2, puntosJugadores, opcionJugador1, opcionJugador2);
+        return verificarRonda(Nombre1, Nombre2, puntosJugadores, banderaIrInicio, sc);
+    }
 
-            if (puntosJugador1 == 3 || puntosJugador2 == 3){
-                if (puntosJugador1 == 3){
-                    System.out.println("\n" + Nombre1 + " ha ganado la ronda!!!");
-                }else if(puntosJugador2 == 3){
-                    System.out.println("\n" + Nombre2 + " ha ganado la ronda!!!");
+    private static boolean verificarOpcion(String opcionMenu){
+        return opcionMenu.equalsIgnoreCase("1") || opcionMenu.equalsIgnoreCase("2");
+    }
+
+    private static void ejercicio13(Scanner sc){
+        boolean continuarJugando = true, primeraVez = false;
+        String opcionMenu, mensaje = String.format("1. Multijugador %n2. Contra CPU %nSeleccione: "), Nombre1 ="", Nombre2 = "";
+        byte[] puntosJugadores = {0,0};
+        boolean[] banderaIrInicio = {false};
+        opcionMenu = pedirCadena(mensaje, sc);
+
+        while(continuarJugando){
+            if (banderaIrInicio[0] || primeraVez){    // Controla si debe ir al menu principal del juego para reiniciar los puntos y mostrar si quiere jugar mult o CPU
+                puntosJugadores[0] = 0;
+                puntosJugadores[1] = 0;
+                opcionMenu = pedirCadena(mensaje, sc);
+                primeraVez = true;
+            }
+            if (verificarOpcion(opcionMenu)){
+                banderaIrInicio[0] = false;
+                if (opcionMenu.equalsIgnoreCase("1")){
+                    if (primeraVez){
+                        Nombre1 = pedirCadena("Ingrese el nombre del Jugador 1: ", sc);
+                        Nombre2 = pedirCadena("Ingrese el nombre del Jugador 2: ", sc);
+                        primeraVez = false;
+                    }
+                    continuarJugando = multijugador(sc, puntosJugadores, banderaIrInicio, Nombre1, Nombre2, 1);
+                }else{
+                    if (primeraVez){
+                        Nombre1 = pedirCadena("Ingrese el nombre del Jugador 1: ", sc);
+                        primeraVez = false;
+                    }
+                   continuarJugando = multijugador(sc, puntosJugadores, banderaIrInicio, Nombre1, "CPU", 2);
                 }
-                if(!continuarIngresando("Desea jugar de nuevo?: ", sc)){  //Si no desea continuar jugando
-                    continuarJugando = false;
-                }
+            }else{
+                System.out.println("Ingrese una opcion correcta...");
+                primeraVez = true;
             }
             esperarEntrada(sc);
         }
