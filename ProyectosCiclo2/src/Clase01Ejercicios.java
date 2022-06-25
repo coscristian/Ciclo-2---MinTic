@@ -24,8 +24,8 @@ public class Clase01Ejercicios {
                     case 9: ejercicio9(sc); break;
                     case 10: ejercicio10(sc); break;
                     case 11: ejercicio11(sc); break;
-                    // case 12: ejercicio12(); break;
-                    // case 13: ejercicio13(); break;
+                    case 12: ejercicio12(sc); break;
+                    case 13: ejercicio13(sc); break;
                     // case 14: ejercicio14(); break;
                     // case 15: ejercicio15(); break;
                     // case 16: salir(); break;
@@ -37,6 +37,7 @@ public class Clase01Ejercicios {
             }catch (Exception e) {
                 clearScreen();
                 System.out.println("\nError!! Ingrese un valor valido");
+                System.out.println(e);
                 sc.nextLine(); 
             }    
             esperarEntrada(sc);
@@ -78,8 +79,140 @@ public class Clase01Ejercicios {
     }
     // ------------------
 
-    private static void ejercicio11(Scanner sc){
+    private static void ejercicio13(Scanner sc){
+        boolean continuarJugando = true;
+        String Nombre1, Nombre2, opcionJugador1, opcionJugador2, Resultado = "";
+        byte puntosJugador1 = 0, puntosJugador2 = 0;
+        Nombre1 = pedirCadena("Ingrese el nombre del Jugador 1: ", sc);
+        Nombre2 = pedirCadena("Ingrese el nombre del Jugador 2: ", sc);
         
+        while(continuarJugando){
+            //Pedir al jugador que seleccione la opcion con la que desea jugar
+            opcionJugador1 = pedirCadena(Nombre1 + ": Piedra (P), Papel(L), Tijera(T) ?: ", sc);
+            opcionJugador2 = pedirCadena(Nombre2 + ": Piedra (P), Papel(L), Tijera(T) ?: ", sc);
+
+            if (opcionJugador1.equalsIgnoreCase("P")){  //Casos derivados para Piedra seleccionada por J1
+                if(opcionJugador2.equalsIgnoreCase("P")){
+                    Resultado = "EMPATE!! No hay puntos para ningún jugador";
+                }else if (opcionJugador2.equalsIgnoreCase("L")){
+                    Resultado = "Punto para " + Nombre2;
+                    puntosJugador2++;
+                }else if(opcionJugador2.equalsIgnoreCase("T")){
+                    Resultado = "Punto para " + Nombre1;
+                    puntosJugador1++;
+                }else{
+                    System.out.println("Ingrese una letra correcta!!");
+                }
+            }else if(opcionJugador1.equalsIgnoreCase("L")){ //Casos derivados para Papel seleccionado por J1
+                if(opcionJugador2.equalsIgnoreCase("L")){
+                    Resultado = "EMPATE!! No hay puntos para ningún jugador";
+                }else if (opcionJugador2.equalsIgnoreCase("P")){
+                    Resultado = "Punto para " + Nombre1;
+                    puntosJugador1++;
+                }else if(opcionJugador2.equalsIgnoreCase("T")){
+                    Resultado = "Punto para " + Nombre2;
+                    puntosJugador2++;
+                }else{
+                    System.out.println("Ingrese una letra correcta!!");
+                }
+            }else if(opcionJugador1.equalsIgnoreCase("T")){ //Casos derivados para Tijera seleccionado por J1
+                if(opcionJugador2.equalsIgnoreCase("T")){
+                    Resultado = "EMPATE!! No hay puntos para ningún jugador";
+                }else if (opcionJugador2.equalsIgnoreCase("P")){
+                    Resultado = "Punto para " + Nombre2;
+                    puntosJugador2++;
+                }else if(opcionJugador2.equalsIgnoreCase("L")){
+                    Resultado = "Punto para " + Nombre1;
+                    puntosJugador1++;
+                }else{
+                    System.out.println("Ingrese una letra correcta!!");
+                }
+            }else{
+                System.out.println("Ingrese una letra correcta!!");
+            }
+            clearScreen();
+            System.out.println(Resultado);
+            System.out.printf("\tPuntos %s --> %d %n\tPuntos %s --> %d",Nombre1, puntosJugador1, Nombre2, puntosJugador2);
+
+            if (puntosJugador1 == 3 || puntosJugador2 == 3){
+                if (puntosJugador1 == 3){
+                    System.out.println("\n" + Nombre1 + " ha ganado la ronda!!!");
+                }else if(puntosJugador2 == 3){
+                    System.out.println("\n" + Nombre2 + " ha ganado la ronda!!!");
+                }
+                if(!continuarIngresando("Desea jugar de nuevo?: ", sc)){  //Si no desea continuar jugando
+                    continuarJugando = false;
+                }
+            }
+            esperarEntrada(sc);
+        }
+    }
+
+    private static boolean continuarIngresando(String mensaje, Scanner sc){
+        esperarEntrada(sc);
+        while(true){
+            clearScreen();
+            String respuesta = pedirCadena(mensaje, sc);
+            if (respuesta.equalsIgnoreCase("S")){
+                return true;
+            }else if(respuesta.equalsIgnoreCase("N")){
+                return false;
+            }else{
+                System.out.println("Ingrese una respuesta correcta");
+                esperarEntrada(sc);
+            }
+        }
+    }
+
+    private static boolean esPrimo(int Num){
+        int cont_div = 0;
+        if (Num != 1 && Num != 0){
+            for(int i = 2; i < Num; i++){
+                if (Num % i == 0){
+                    cont_div++;
+                }
+            }
+            return cont_div == 0;
+        }else{
+            return false;
+        }
+    }
+
+    private static void ejercicio12(Scanner sc) {
+        boolean ingresar = true;
+        int Num;
+
+        while(ingresar){
+            clearScreen();
+            Num = pedirEntero("Ingrese un numero: ", sc);
+            if (esPrimo(Num)){
+                System.out.println("El numero es primo.");
+            }else{
+                System.out.println("El numero no es primo.");
+            }
+            ingresar = continuarIngresando("Desea introducir otro número (S/N): ", sc);
+        }
+    }
+
+    private static void ejercicio11(Scanner sc){
+        String sexo;
+        int estatura = 0, PesoIdeal = 0;
+        boolean correcto = false;
+        while(!correcto){
+            sexo = pedirCadena("Ingrese el sexo H/M: ", sc);
+            estatura = pedirEntero("Ingrese la estatura en cm: ", sc);
+            if (sexo.equalsIgnoreCase("H")){
+                PesoIdeal = estatura - 100;
+                correcto = true;
+            }else if (sexo.equalsIgnoreCase("M")){
+                PesoIdeal = estatura - 110;
+                correcto = true;
+            }else{
+                System.out.println("Dato ingresado no valido");
+                esperarEntrada(sc);
+            }
+        }
+        System.out.print("Peso ideal " + PesoIdeal + " kg.");
     }
 
     private static void ejercicio10(Scanner sc){
