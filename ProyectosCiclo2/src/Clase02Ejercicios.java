@@ -29,7 +29,8 @@ public class Clase02Ejercicios {
                     case 15: exercise15(sc); break;
                     case 16: exercise16(sc); break;
                     case 17: exercise17(sc); break;
-                    // case 18: exit(); break;
+                    case 18: clearScreen();
+                             System.out.println("Saliendo...");; break;
                     default:
                         System.out.println("Select a correct option...");
                         break;
@@ -90,12 +91,12 @@ public class Clase02Ejercicios {
         return intValue;
     }
 
-    private static String inputString(String message, Scanner sc) {
+/*     private static String inputString(String message, Scanner sc) {
         System.out.print(message);
         String UserInput = sc.nextLine();
         //sc.nextLine(); //Cleans the buffer
         return UserInput;
-    }
+    } */
 
     private static void showMainMenu(){
         String Menu;
@@ -116,9 +117,9 @@ public class Clase02Ejercicios {
                "13. Exercise 13\n" +
                "14. Exercise 14\n" +
                "15. Exercise 15\n" +
-               "15. Exercise 16\n" +
-               "15. Exercise 17\n" +
-               "16. Exit\n";
+               "16. Exercise 16\n" +
+               "17. Exercise 17\n" +
+               "18. Exit\n";
         System.out.print(Menu);
     }
 
