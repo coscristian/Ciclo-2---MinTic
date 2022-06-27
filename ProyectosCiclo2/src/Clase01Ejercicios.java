@@ -51,12 +51,12 @@ public class Clase01Ejercicios {
         clearScreen();
     }
 
-    public static void clearScreen() {  
+    private static void clearScreen() {  
         System.out.print("\033[H\033[2J");  
         System.out.flush();  
     }  
 
-    public static double pedirFlotante(String mensaje, Scanner sc) {
+    private static double pedirFlotante(String mensaje, Scanner sc) {
         double Num;
         System.out.print(mensaje);
         Num = sc.nextDouble();
@@ -64,7 +64,7 @@ public class Clase01Ejercicios {
         return Num;
     }
 
-    public static int pedirEntero(String mensaje, Scanner sc) {
+    private static int pedirEntero(String mensaje, Scanner sc) {
         int Num;
         System.out.print(mensaje);
         Num = sc.nextInt();
@@ -72,7 +72,7 @@ public class Clase01Ejercicios {
         return Num;
     }
 
-    public static String pedirCadena(String mensaje, Scanner sc){
+    private static String pedirCadena(String mensaje, Scanner sc){
         System.out.print(mensaje);
         String Cadena = sc.nextLine();
         return Cadena;
