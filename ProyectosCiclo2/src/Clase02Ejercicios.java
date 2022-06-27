@@ -1,4 +1,3 @@
-import java.nio.file.OpenOption;
 import java.util.Scanner;
 
 public class Clase02Ejercicios {
