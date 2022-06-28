@@ -121,23 +121,23 @@ public class Clase01Ejercicios {
     }
 
     private static boolean verificarRonda(String Nombre1, String Nombre2, byte[] puntosJugadores, boolean[] banderaIrInicio, Scanner sc){
-    if (puntosJugadores[0] == 3 || puntosJugadores[1] == 3){
-        banderaIrInicio[0] = true; // Cuando uno de los dos jugadores haya ganado, debo ir a mostrar el menu de inicio del juego (Multiplayer o CPU)
-        if (puntosJugadores[0] == 3){
-            System.out.println("\n" + Nombre1 + " ha ganado la ronda!!!");
-        }else if(puntosJugadores[1] == 3){
-            System.out.println("\n" + Nombre2 + " ha ganado la ronda!!!");
+        if (puntosJugadores[0] == 3 || puntosJugadores[1] == 3){
+            banderaIrInicio[0] = true; // Cuando uno de los dos jugadores haya ganado, debo ir a mostrar el menu de inicio del juego (Multiplayer o CPU)
+            if (puntosJugadores[0] == 3){
+                System.out.println("\n" + Nombre1 + " ha ganado la ronda!!!");
+            }else if(puntosJugadores[1] == 3){
+                System.out.println("\n" + Nombre2 + " ha ganado la ronda!!!");
+            }
+            return continuarIngresando("Desea jugar de nuevo?: ", sc);
         }
-        return continuarIngresando("Desea jugar de nuevo?: ", sc);
-    }
-    return true;
+        return true;
     }
 
     private static void mostrarResultados(String Resultado, String Nombre1, String Nombre2, byte[] puntosJugadores, String opcionJugador1, String opcionJugador2){
-    clearScreen();
-    System.out.printf("%s sacó %s %n%s sacó %s %n", Nombre1, opcionJugador1, Nombre2, opcionJugador2);
-    System.out.println(Resultado);
-    System.out.printf("\tPuntos %s --> %d %n\tPuntos %s --> %d",Nombre1, puntosJugadores[0], Nombre2, puntosJugadores[1]);
+        clearScreen();
+        System.out.printf("%s sacó %s %n%s sacó %s %n", Nombre1, opcionJugador1, Nombre2, opcionJugador2);
+        System.out.println(Resultado);
+        System.out.printf("\tPuntos %s --> %d %n\tPuntos %s --> %d",Nombre1, puntosJugadores[0], Nombre2, puntosJugadores[1]);
     }
 
     private static boolean multijugador(Scanner sc, byte[] puntosJugadores, boolean[] banderaIrInicio, String Nombre1, String Nombre2, int opcion){
