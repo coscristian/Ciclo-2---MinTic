@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
+        "ProyectosCiclo2/src",
         "Ejercicios Libro Programación ModernaJava",
-        "ProyectosCiclo2/src"
+        "ProyectosCiclo2/ajedrez/src/main/java/com/cristian/desarrollo"
     ]
 }
