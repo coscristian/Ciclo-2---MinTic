@@ -1,10 +1,20 @@
 package com.cristian.desarrollo.modelo;
 
 public abstract class Ficha {
-    // Una clase es abstracta cuando yo se que un objeto tiene un comportamiento especifico pero no se
-    // cual va a ser ese comportamiento.
-    public Color color;
-    public Casilla origen;
+    //Proctected va a ser publica solo para los que hereden de ficha
+    private Color color;
+    private Casilla origen;
+
+    public Ficha(Color color){
+        // Va a buscar un constructor que tenga dos parametros con el mismo tipo
+        // En caso de que desea inicializar una ficha solo con su color sin su origen
+        this(color, null);
+    }
+
+    public Ficha(Color color, Casilla origen) {
+        this.color = color;
+        this.origen = origen;
+    }
 
     public Boolean comer(){
         // TODO: Falta implementar este metodo
@@ -14,4 +24,13 @@ public abstract class Ficha {
     public abstract Boolean mover(Casilla destino); // La clase ficha se puede mover pero no se como se puede mover
     //Ya que hay peones, torres, caballos...etc
 
+    public Color getColor() {
+        return color;
+    }
+
+    public Casilla getOrigen() {
+        return origen;
+    }
+
+    
 }

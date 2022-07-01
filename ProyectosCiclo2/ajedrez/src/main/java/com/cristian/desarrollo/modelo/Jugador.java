@@ -1,8 +1,8 @@
 package com.cristian.desarrollo.modelo;
 
 public class Jugador {
-    public String nombre;
-    public Color color;
+    private String nombre;
+    private Color color;
 
     public Jugador(String nombre, Color color){
         /* Hace referencia al objeto que va a ser creado a partir de la clase
