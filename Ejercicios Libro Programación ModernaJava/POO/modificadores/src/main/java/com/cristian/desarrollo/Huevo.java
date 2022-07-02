@@ -12,9 +12,15 @@ public class Huevo {
     }
 
     public String mostrarInfo(){
-        return "\nCant comprar: \t" + huevosAcomprar +
-                "\nCant adquirida: \t" + huevosAdquiridos + 
-                "\nCant disponible:\t" + huevosDisponibles + 
+        return "\n\nCant comprar\t" + huevosAcomprar +
+                "\nCant adquirida\t" + huevosAdquiridos + 
                 "\n----------------------";
+    }
+
+    public static String mostrarCantDisponible(){
+        return "\n\n**************************" +
+               "\nCantidad Huevos Disponibles" +  
+               "\n**************************\n\t" + 
+               huevosDisponibles;
     }
 }

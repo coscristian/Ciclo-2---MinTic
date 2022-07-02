@@ -8,7 +8,7 @@ public class Gasto {
     public Gasto(String descripcion, Double valorGasto){
         this.descripcion = descripcion;
         this.valorGasto = valorGasto;
-        cajaMenor -= valorGasto;
+        cajaMenor -= this.valorGasto;
     }
 
     public String mostrarInfo(){

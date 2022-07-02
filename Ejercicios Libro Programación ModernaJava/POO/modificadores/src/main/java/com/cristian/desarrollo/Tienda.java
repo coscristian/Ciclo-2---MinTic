@@ -9,17 +9,22 @@ public class Tienda {
     public static void main(String[] args) {
         Huevo h0 = new Huevo(0,0);
         System.out.print(h0.mostrarInfo());
+        System.out.print(Huevo.mostrarCantDisponible());
 
         Huevo h1 = new Huevo(1, 0);
         System.out.print(h1.mostrarInfo());
+        System.out.print(Huevo.mostrarCantDisponible());
 
         Huevo h2 = new Huevo(1, 4);
         System.out.print(h2.mostrarInfo());
+        System.out.print(Huevo.mostrarCantDisponible());
 
         Huevo h3 = new Huevo(2, 0);
         System.out.print(h3.mostrarInfo());
+        System.out.print(Huevo.mostrarCantDisponible());
 
         Huevo h4 = new Huevo(1, 2);
         System.out.println(h4.mostrarInfo());
+        System.out.print(Huevo.mostrarCantDisponible());
     }
 }

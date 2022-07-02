@@ -17,7 +17,12 @@ public class Estudiante {
         cantEstudiantes += 1;
     }
 
-    public Integer getCantEstudiantes() {
-        return cantEstudiantes;
+    public static String mostrarCantEstudiantes() {
+        return String.format(
+            "\n\n**************************" +
+            "\nEstudiantes Matriculados" +  
+            "\n**************************\n\t" + 
+            "%,d\n", cantEstudiantes
+            );
     }
 }

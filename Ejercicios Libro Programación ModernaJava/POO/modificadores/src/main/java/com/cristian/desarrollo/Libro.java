@@ -13,16 +13,29 @@ public class Libro {
         cantLibrosIngresados++;
     }
 
+    public static String mostrarTitulo(){
+        return "\n----------" + 
+               "\nLibreria Panamericana\n" +
+               "Capacidad Total\t" + 100 + " libros\n" +
+               "----------";
+
+    }
+
     public String mostrarInfo(){
-        return "\n------------------\nLibrería" +
-        "\nLibro N°:\t" + cantLibrosIngresados +
-        "\nTitulo:\t" + titulo + 
-        "\nAutor: \t" + autor + 
-        "\nAño: \t" + anio + 
-        "\nCapacidad actual:\t" + (100 - cantLibrosIngresados) +
-        "\nCapacidad total:\t" + 100 + 
+        return "\n------------------" +
+        "\nLibro N°\t" + cantLibrosIngresados +
+        "\nTitulo\t" + titulo + 
+        "\nAutor\t" + autor + 
+        "\nAño\t" + anio + 
         "\n------------------\n";
     } 
 
-
+    public static String mostrarCapacidadAct(){
+        return String.format(
+            "\n\n**************************" +
+            "\nCapacidad Actual" +  
+            "\n**************************\n\t" + 
+            "%,d\n", (100 - cantLibrosIngresados)
+            );
+    }
 }

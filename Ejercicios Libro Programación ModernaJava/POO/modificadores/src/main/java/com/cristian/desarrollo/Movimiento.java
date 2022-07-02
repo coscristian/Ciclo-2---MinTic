@@ -10,10 +10,10 @@ public class Movimiento {
     private String nombreDestino;
     private final String banco = "Bancolombia";
     private String tipoMov;
-    private Double valorMov;
-    private static Double saldo = 50000.0;
+    private Integer valorMov;
+    private static Integer saldo = 50000;
 
-    public Movimiento(String nombreOrigen, String nombreDestino, String tipoMov, Double valorMov){
+    public Movimiento(String nombreOrigen, String nombreDestino, String tipoMov, Integer valorMov){
         this.nombreOrigen = nombreOrigen;
         this.nombreDestino = nombreDestino;
         this.tipoMov = tipoMov;
@@ -31,13 +31,21 @@ public class Movimiento {
     }
 
     public String mostrarInfo(){
-        return "\n------------------\nMovimientos Cuenta Bancaria" +
+        return "\n\n------------------\nMovimientos Cuenta Bancaria" +
         "\nTipo Mov:\t" + tipoMov +
         "\nBanco:\t" + banco + 
         "\nOrigen: \t" + nombreOrigen + 
         "\nDestino: \t" + nombreDestino + 
-        "\nValor: $ \t" + valorMov +
-        "\nSaldo: $ \t" + saldo + 
+        "\nValor: $ \t" + valorMov + 
         "\n------------------\n";
     } 
+
+    public static String mostrarSaldoDisponible(){
+        return String.format(
+            "\n\n**************************" +
+            "\nSaldo Actual" +  
+            "\n**************************\n\t" + 
+            "$%,d", saldo
+            );
+    }
 }
