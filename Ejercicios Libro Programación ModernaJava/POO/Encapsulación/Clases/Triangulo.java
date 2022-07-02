@@ -1,13 +1,13 @@
 public class Triangulo {
-    private Integer base;
-    private Integer altura;
+    private Double base;
+    private Double altura;
     public Double area;
 
-    public Integer getBase(){
+    public Double getBase(){
         return base;
     }
 
-    public Integer getAltura(){
+    public Double getAltura(){
         return altura;
     }
 
@@ -15,11 +15,11 @@ public class Triangulo {
         return (base * altura) / 2;
     }
 
-    public void setBase(Integer b){
+    public void setBase(Double b){
         base = b;
     }
 
-    public void setAltura(Integer a){
+    public void setAltura(Double a){
         altura = a;
     }
 

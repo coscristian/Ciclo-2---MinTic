@@ -1,16 +1,17 @@
 import java.util.Scanner;
+import POO.Encapsulacion.Clases.*;
 
 public class AreaTriangulo {
     public static void main(String[] args) {
-        Integer base, altura;
+        Double base, altura;
         Double area;
         Scanner sc = new Scanner(System.in);
         
         System.out.print("Ingrese la base del triangulo: ");
-        base = sc.nextInt();
+        base = sc.nextDouble();
 
         System.out.print("Ingrese la altura del triangulo: ");
-        altura = sc.nextInt();
+        altura = sc.nextDouble();
 
         Triangulo Tri1 = new Triangulo();
         
