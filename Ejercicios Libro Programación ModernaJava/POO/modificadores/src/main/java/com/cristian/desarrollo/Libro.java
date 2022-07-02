@@ -4,13 +4,19 @@ public class Libro {
     private String titulo;
     private String autor;
     private String anio;
+    private String editorial;
     private static Integer cantLibrosIngresados = 0;
 
-    public Libro(String titulo, String autor, String anio){
+    public Libro(String titulo, String autor, String anio, String editorial){
         this.titulo = titulo;
         this.autor = autor;
         this.anio = anio;
+        this.editorial = editorial;
         cantLibrosIngresados++;
+    }
+
+    public Libro(String titulo){
+        this(titulo, "Pendiente", "1000", "Pendiente");
     }
 
     public static String mostrarTitulo(){
