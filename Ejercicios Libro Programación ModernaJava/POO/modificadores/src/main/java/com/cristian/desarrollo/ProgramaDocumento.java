@@ -17,6 +17,5 @@ public class ProgramaDocumento {
         for (Documento doc : documentos) {
             System.out.println(doc.mostrarTamanio());
         }
-
     }
 }

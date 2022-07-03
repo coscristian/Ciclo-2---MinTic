@@ -21,7 +21,7 @@ public abstract class Ficha {
         return true;
     }
 
-    public abstract Boolean mover(Casilla destino); // La clase ficha se puede mover pero no se como se puede mover
+    public abstract Boolean mover(Casilla destino); // La clase ficha se puede mover pero aún no se como se puede mover
     //Ya que hay peones, torres, caballos...etc
 
     public Color getColor() {
