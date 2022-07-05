@@ -8,6 +8,7 @@ public class Empleado implements Interfaz2{
     private double salarioNeto;
     private double salarioTotal;
     private double salarioAdicional;
+    private double salarioAumento;
     private int cantHijos;
 
     public Empleado(String nombre, String id, String edad, String cargo, int cantHijos) {
@@ -22,7 +23,17 @@ public class Empleado implements Interfaz2{
     public double calcularAdicionalHijos(double salario, int cantHijos) {
         return (salario * porcentajeAdicional) * cantHijos;
     }
+
+    @Override
+    public double calcularAumento(double salario, double aumento) {
+        return (aumento/100) * salario;
+    }
+
     // Getters
+    public double getAumento(){
+        return salarioAumento;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -67,4 +78,9 @@ public class Empleado implements Interfaz2{
     public void setSalarioAdicional(double salarioAdicional) {
         this.salarioAdicional = salarioAdicional;
     }
+    
+    public void setSalarioAumento(double salarioAumento){
+        this.salarioAumento = salarioAumento;
+    }
+
 }

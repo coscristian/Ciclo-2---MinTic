@@ -1,5 +1,13 @@
-package com.cristian.desarrollo;
+/*
+-Construir un programa que permita pagar a un empleado el 5%
+adicional sobre el valor de su salario por cada hijo que tenga, usando
+la facilidad de las intefaces 
 
+-Construir un programa que permita aumentar el salario de un empleado
+en un porcentaje dado a partir del uso de interfaces
+*/
+
+package com.cristian.desarrollo;
 import javax.swing.JOptionPane;
 
 public class ProgramaEmpleado {
@@ -8,7 +16,7 @@ public class ProgramaEmpleado {
 
         String nombre, id, edad, cargo;
         int cantHijos;
-        double salarioNeto, adicionalHijos;
+        double salarioNeto, adicionalHijos, aumento;
 
         for (int i = 0; i < 3; i++) {
             nombre = JOptionPane.showInputDialog("Ingrese el nombre del empleado " + (i+1));
@@ -17,13 +25,15 @@ public class ProgramaEmpleado {
             cargo = JOptionPane.showInputDialog("Ingrese el cargo del empleado " + (i+1));
             salarioNeto = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el salario del empleado " + (i+1)));
             cantHijos = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de hijos del empleado " + (i+1)));
-        
+            aumento = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el valor del aumento para el empleado " + (i+1)));
+
             Empleado empleado = new Empleado(nombre, id, edad, cargo, cantHijos);
             
             empleado.setSalarioNeto(salarioNeto);
             adicionalHijos = empleado.calcularAdicionalHijos(empleado.getSalarioNeto(), empleado.getCantHijos());
             empleado.setSalarioAdicional(adicionalHijos);
-            empleado.setSalarioTotal(adicionalHijos + salarioNeto);
+            empleado.setSalarioAumento(aumento);
+            empleado.setSalarioTotal(empleado.getSalarioAdicional() + empleado.getSalarioNeto() + empleado.getAumento());
             
             misEmpleados[i] = empleado;
         }
@@ -38,6 +48,7 @@ public class ProgramaEmpleado {
             System.out.println("\tSalarioNeto\t" + e.getSalarioNeto());
             System.out.println("\tCant Hij\t" + e.getCantHijos());
             System.out.println("\tValor Ad\t" + e.getSalarioAdicional());
+            System.out.println("\tValor Aum\t" + e.getAumento());
             System.out.println("\tSalario Tot\t" + e.getSalarioTotal());
             System.out.println();
             cont++;
