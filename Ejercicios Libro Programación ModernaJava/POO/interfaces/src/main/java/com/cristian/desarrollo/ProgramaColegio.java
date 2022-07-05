@@ -1,8 +1,10 @@
-/*Construir un programa Java que permita diseñar una solución para
+/*
+Construir un programa Java que permita diseñar una solución para
 realizar un descuento para todos los estudiantes que se matriculen en
 un colegio y además para que los estudiantes de estratos 1 y 2 reciban
 un descuento adicional, aprovechando el concepto de herencia entre
-interfaces */
+interfaces.
+*/
 
 package com.cristian.desarrollo;
 import javax.swing.JOptionPane;
