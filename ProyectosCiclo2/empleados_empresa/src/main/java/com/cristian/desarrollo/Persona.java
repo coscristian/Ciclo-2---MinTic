@@ -2,12 +2,20 @@ package com.cristian.desarrollo;
 
 public abstract class Persona {
     protected String nombre;
-    protected String edad;
+    protected Integer edad;
     
-    public Persona(String nombre, String edad){
+    public Persona(String nombre, Integer edad){
         this.nombre = nombre;
         this.edad = edad;
     }
 
-    public abstract String mostrarInfo();
+    public String getNombre() {
+        return nombre;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public abstract void mostrarInfo();
 }

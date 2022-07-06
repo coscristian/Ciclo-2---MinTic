@@ -3,5 +3,6 @@
         "ProyectosCiclo2/src",
         "Ejercicios Libro Programación ModernaJava",
         "ProyectosCiclo2/ajedrez/src/main/java/com/cristian/desarrollo"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
 }
