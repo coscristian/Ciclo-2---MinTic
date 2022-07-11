@@ -30,13 +30,14 @@ public class App {
 
         // Creando la empresa con empleados ya definidos
         Empresa empresa = new Empresa("Grupo 69", empleados);
+        empresa.agregarCliente(maria);
 
         // Probando cosas nuevas
         // Crea una lista lista nueva de tipo empleado
-        var empleados2 = Arrays.asList(cristian, juan, gustavo, ivan);
+        //var empleados2 = Arrays.asList(cristian, juan, gustavo, ivan);
 
         //Crear lista vacia (Es inmutable)
-        Collections.emptyList();
+        //Collections.emptyList();
         
         //Imprimir
         System.out.printf("La empresa %s tiene los siguientes empleados: %n", empresa.getNombre());
@@ -49,13 +50,15 @@ public class App {
                         ((Directivo) empleado).getSubordinados()
                             .stream() // Flujo de datos: 
                             .map(subordinado -> subordinado.getNombre())
-                            .reduce((a,b))  );
+                            .reduce((a,b) -> a + ", " + b)
+                            .get());
                     }
                 });
-
-
-
-
+    
+    System.out.println("Y sus clientes son: ");
+    empresa.getClientes()
+            .forEach(cliente -> cliente.mostrarInfo());
+    
 /*         for (Empleado empleado : empresa.getEmpleados()) {
             if (empleado instanceof Directivo){
                 var directivo = (Directivo) empleado;
