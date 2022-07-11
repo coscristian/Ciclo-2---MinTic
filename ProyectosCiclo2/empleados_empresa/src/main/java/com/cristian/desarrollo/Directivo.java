@@ -1,5 +1,8 @@
 package com.cristian.desarrollo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.cristian.desarrollo.excepciones.MaximoNumeroSubordinadosException;
 
 public class Directivo extends Empleado{
@@ -11,7 +14,9 @@ public class Directivo extends Empleado{
     private Integer numSubordinados;
 
     //Relacion directivo tiene a cargo 0 a n subordinados
-    Empleado[] subordinados;
+    //Empleado[] subordinados;
+    // Coleccion con la interfaz
+    private List<Empleado> subordinados; // SI lo defino explicito, no hay necesidad de decrile el tipo al crearlo
 
     public Directivo(String nombre, Integer edad) {
         this(nombre, edad, SUELDO_POR_DEFECTO);
@@ -28,7 +33,7 @@ public class Directivo extends Empleado{
     public Directivo(String nombre, Integer edad, Double sueldoBruto, String categoria) {
         super(nombre, edad, sueldoBruto);
         this.categoria = categoria;
-        this.subordinados = new Empleado[10];
+        this.subordinados = new ArrayList<>();
         this.numSubordinados = 0;
     }
 
@@ -36,21 +41,23 @@ public class Directivo extends Empleado{
         return categoria;
     }
 
-    public Empleado[] getSubordinados() {
+    public List<Empleado> getSubordinados() {
         return subordinados;
     }
 
     public void agregarSubordinado(Empleado empleado){
 
+        subordinados.add(empleado);
+
         if (numSubordinados >= CANTIDAD_SUBORDINADOS){
             throw new MaximoNumeroSubordinadosException();
         }
 
-        if(numSubordinados < CANTIDAD_SUBORDINADOS){
+/*         if(numSubordinados < CANTIDAD_SUBORDINADOS){
             subordinados[numSubordinados++] = empleado;
         }else{
             System.err.println("Err: El Directivo no puede agregar un empleado subordinado más.");
-        }
+        } */
     }
 
     public void setCategoria(String categoria) {

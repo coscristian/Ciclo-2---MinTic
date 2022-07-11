@@ -1,6 +1,8 @@
 package com.cristian.desarrollo;
 
-import com.cristian.desarrollo.excepciones.MaximoNumeroClientesException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class App {
     public static void main( String[] args ){
@@ -20,29 +22,41 @@ public class App {
         juan.agregarSubordinado(ivan);
         juan.agregarSubordinado(cristian);
 
+        var empleados = new ArrayList<Empleado>();
+        empleados.add(cristian);
+        empleados.add(juan);
+        empleados.add(gustavo);
+        empleados.add(ivan);
+
         // Creando la empresa con empleados ya definidos
-        Empresa empresa = new Empresa("Grupo 69", new Empleado[]{
-            cristian, juan, gustavo, ivan });
+        Empresa empresa = new Empresa("Grupo 69", empleados);
+
+        // Probando cosas nuevas
+        // Crea una lista lista nueva de tipo empleado
+        var empleados2 = Arrays.asList(cristian, juan, gustavo, ivan);
+
+        //Crear lista vacia (Es inmutable)
+        Collections.emptyList();
         
-        // Agregar cliente a la empresa
-/*         try {
-            empresa.agregarCliente(maria);
-            empresa.agregarCliente(new Cliente("Laura Gutierrez", 28));
-        } catch (MaximoNumeroClientesException ex) {
-            System.err.println("Ha ocurrido un error al agregar un cliente\n\t" + ex.getMessage());
-        } */
-
-        try {
-            empresa.agregarCliente(maria);
-            empresa.agregarCliente(new Cliente("Laura Gutierrez", 28));
-        } catch (Exception e) {
-            System.err.println("El directivo no puede agregar mas subordinados.");
-        }
-
-
         //Imprimir
         System.out.printf("La empresa %s tiene los siguientes empleados: %n", empresa.getNombre());
-        for (Empleado empleado : empresa.getEmpleados()) {
+
+        empresa.getEmpleados().
+                forEach((empleado) -> {  // parametros(empleado)
+                    empleado.mostrarInfo();  // bloque(función)
+                    if (empleado instanceof Directivo){
+                        System.out.println("Y sus subordinados son: " + 
+                        ((Directivo) empleado).getSubordinados()
+                            .stream() // Flujo de datos: 
+                            .map(subordinado -> subordinado.getNombre())
+                            .reduce((a,b))  );
+                    }
+                });
+
+
+
+
+/*         for (Empleado empleado : empresa.getEmpleados()) {
             if (empleado instanceof Directivo){
                 var directivo = (Directivo) empleado;
                 System.out.print(" Y sus subordinados son: ");
@@ -67,7 +81,7 @@ public class App {
                 break;
             }
             cliente.mostrarInfo();
-        }
+        } */
 
     }
 }
