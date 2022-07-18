@@ -109,10 +109,13 @@ insert into mat_alu values (4, 1)
 /* Relación entre materias y profesores */
 insert into mat_pro values(2, 2)
 
-select nom_alu, edad_alu, sem_alu, nom_c
-from alumno inner join carrera on alumno.clave_c1 = carrera.clave_c 
-inner join alu_pro on alu_pro.mat_alu1 = alumno.mat_alu 
-inner join profesor on profesor.clave_p1 = 
+select nom_alu, edad_alu, sem_alu, nom_c, nom_p, nom_m
+from alumno inner join carrera on alumno.clave_c1 = carrera.clave_c
+inner join alu_pro on alu_pro.mat_alu1 = alumno.mat_alu
+inner join profesor on alu_pro.clave_p1 = profesor.clave_p 
+inner join mat_alu on mat_alu.mat_alu2 = alumno.mat_alu
+inner join materia on mat_alu.clave_m1 = materia.clave_m
+order by 1
 
 /* Borrado de tablas */
 DROP TABLE carrera;
