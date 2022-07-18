@@ -22,6 +22,7 @@ create table editoriales(
 insert into editoriales(nombre) values ('Planeta');
 insert into editoriales(nombre) values ('Emece');
 insert into editoriales(nombre) values ('Siglo XXI');
+insert into editoriales(nombre) values ('Ediciones de la U');
 
 -- Insertando libros
 insert into libros (titulo, autor, codigoeditorial, precio)
@@ -42,15 +43,21 @@ values ('Martin Fierro', 'Jose Hernandez', 2, 25.90);
 insert into libros (titulo, autor, codigoeditorial, precio)
 values ('Martin Fierro', 'Jose Hernandez', 3, 16.80);
 
+insert into libros (titulo, autor, precio)
+values ('El Principito', 'Antoine de Saint-Exupéry', 16.80);
+
 select * from libros;
 
 select *
 	from libros 
 	join editoriales on libros.codigoeditorial = editoriales.codigo_ed;
 
+  select titulo,nombre as Nombre_Editorial
+  from editoriales as e
+  left join libros as l on codigoeditorial = e.codigo_ed;
+
 drop table libros;
 drop table editoriales;
-
 
 ------- Combinación interna (Inner Join) ----------
 
