@@ -9,13 +9,14 @@ import java.util.Scanner;
 public class Aplicacion {
 	
     public static Scanner teclado;
-    public static final Integer SALIR = 0;
+    
     
     // Constantes menu principal
     public static final int GESTION_CLIENTES = 1;
     public static final int GESTION_PROVEEDORES = 2;
     public static final int GESTION_PRODUCTOS = 3;
     public static final int GESTION_FACTURACION = 4;
+    public static final Integer SALIR = 0;
     
     // Constantes submenu
     public static final int CREAR = 1;
@@ -84,7 +85,7 @@ public class Aplicacion {
 							}
 							break;
 						case ELIMINAR:
-							
+							eliminarCliente(clientes, facturas);
 							break;
 	
 						default:
@@ -105,14 +106,93 @@ public class Aplicacion {
 				default:
 					break;
 			}
-        	
-        	
         }while(opcion != SALIR);
         
     }
     
+    private static void eliminarCliente(List<Cliente> clientes, List<Factura> facturas) {
+    	Cliente cliente = buscarCliente(clientes);
+    	if (cliente != null) {
+    		// El cliente existe, debo verificar que no tenga facturas 
+    		Factura factura = buscarFacturaPorCedula(facturas, cliente.getCedula());
+    		if(factura == null) {
+    			clientes.remove(cliente);
+    			System.out.println("MENSAJE: El cliente fue eliminado del sistema correctamente.");
+    		}else {
+    			System.out.println("MENSAJE: El cliente tiene al menos una factura por lo tanto no es posible eliminarlo.");
+    		}
+    	}else {
+    		System.out.println("MENSAJE: El cliente con la cédula ingresada no existe.");
+    	}
+    }
+    
+    private static Factura buscarFacturaPorCedula(List<Factura> facturas, String cedula) {
+    	for (Factura factura : facturas) {
+			if (factura.getCedulaCliente().equals(cedula)) return factura;
+		}
+    	return null;
+    }
+    
     private static void actualizarCliente(Cliente cliente) {
     	
+    	System.out.println("--- 3. Actualizar  Cliente ---");
+    	String nombre, apellido, direccion, correoElectronico, opcion;
+    	Integer telefono;
+    	
+    	// Nombres del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar los nombres del cliente? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+    	
+    	if (opcion.equalsIgnoreCase("Y")) {
+    		nombre = capturarCadenaCaracteres("Digite los nuevos nombres del cliente");	
+    		cliente.setNombre(nombre);
+    	}
+    	
+    	// Apellidos del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar los apellidos del cliente? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+    	
+    	if (opcion.equalsIgnoreCase("Y")) {
+    		apellido = capturarCadenaCaracteres("Digite los nuevos apellidos del cliente");
+    		cliente.setApellido(apellido);
+    	}
+    	
+    	// Telefono del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar el telefono del cliente? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+    	
+    	if(opcion.equalsIgnoreCase("Y")) {
+			do {
+				telefono = capturarNumeroEntero("Digite el nuevo número de telefono del cliente");
+				if(telefono <= 0) {
+					System.out.println("MENSAJE: El número de telefono debe ser un valor positivo");
+				}
+			}while(telefono <= 0);
+			cliente.setTelefono(String.valueOf(telefono));
+    	}
+    	
+    	// Dirección del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar la dirección del cliente? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+
+    	if (opcion.equalsIgnoreCase("Y")) {
+    		direccion = capturarCadenaCaracteres("Digite la nueva dirección del cliente");
+    		cliente.setDireccion(direccion);
+    	}
+		
+    	// Correo del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar el correo del cliente? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+    	
+    	if (opcion.equalsIgnoreCase("Y")) {
+    		correoElectronico = capturarCadenaCaracteres("Digite el nuevo correo E del cliente");
+    		cliente.setCorreoElectronico(correoElectronico);
+    	}
     }
     
     private static void mostrarDatosCliente(Cliente cliente) {
