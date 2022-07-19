@@ -10,7 +10,6 @@ public class Aplicacion {
 	
     public static Scanner teclado;
     
-    
     // Constantes menu principal
     public static final int GESTION_CLIENTES = 1;
     public static final int GESTION_PROVEEDORES = 2;
@@ -33,6 +32,7 @@ public class Aplicacion {
         List<Producto> productos = new ArrayList<>();
         List<Factura> facturas = new ArrayList<>();
         Cliente cliente;
+        Proveedor proveedor;
         
         Integer opcion, opcionSubmenu;
         do {
@@ -94,7 +94,51 @@ public class Aplicacion {
 					
 					break;
 				case GESTION_PROVEEDORES:
+					do {
+						mostrarSubmenu("Proveedores");
+						opcionSubmenu = capturarNumeroEntero("Seleccione una opción: ");
+						
+						if (opcionSubmenu < SALIR || opcionSubmenu > ELIMINAR) {
+							System.out.println("MENSAJE: Debe digitar un valor entre 0 y 4.");
+						}						
+					} while (opcionSubmenu < SALIR || opcionSubmenu > ELIMINAR);
 					
+					if (opcionSubmenu == 0) {
+						break;
+					}
+					
+					switch (opcionSubmenu) {
+						case CREAR:				
+							// Crear Proveedor
+							proveedor = crearProveedor(proveedores);
+							proveedores.add(proveedor);
+							break;
+						case BUSCAR:
+							// Buscar Proveedor
+							proveedor = buscarProveedor(proveedores);
+							if(proveedor != null){
+								mostrarDatosProveedor(proveedor);
+							}else {
+								System.out.println("MENSAJE: No se ha encontrado un proveedor con el número de ID especificado");
+							}							
+							break;
+						case ACTUALIZAR:
+							// Actualizar Proveedor
+							proveedor = buscarProveedor(proveedores);
+							if(proveedor != null) {
+								actualizarProveedor(proveedor);
+								mostrarDatosProveedor(proveedor);
+							}else {
+								System.out.println("MENSAJE: No se ha encontrado un proveedor con el número de ID especificado");
+							}
+							break;
+						case ELIMINAR:
+							// Eliminar Proveedor
+							break;
+	
+						default:
+							break;
+					}					
 					break;
 				case GESTION_PRODUCTOS:
 					
@@ -110,7 +154,112 @@ public class Aplicacion {
         
     }
     
-    private static void eliminarCliente(List<Cliente> clientes, List<Factura> facturas) {
+    private static void actualizarProveedor(Proveedor proveedor) {
+    	
+    	System.out.println("--- 3. Actualizar Proveedor ---");
+    	String nombre, direccion, opcion;
+    	Integer telefono;
+    	
+    	// Nombres del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar los nombres del proveedor? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+    	
+    	if (opcion.equalsIgnoreCase("Y")) {
+    		nombre = capturarCadenaCaracteres("Digite los nuevos nombres del proveedor");	
+    		proveedor.setNombre(nombre);
+    	}
+    	    	
+    	// Telefono del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar el telefono del proveedor? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+    	
+    	if(opcion.equalsIgnoreCase("Y")) {
+			do {
+				telefono = capturarNumeroEntero("Digite el nuevo número de telefono del proveedor");
+				if(telefono <= 0) {
+					System.out.println("MENSAJE: El número de telefono debe ser un valor positivo");
+				}
+			}while(telefono <= 0);
+			proveedor.setTelefono(String.valueOf(telefono));
+    	}
+    	
+    	// Dirección del cliente
+    	do {
+    		opcion = capturarCadenaCaracteres("¿Desea modificar la dirección del proveedor? (Y/N)");
+    	}while(!(opcion.equalsIgnoreCase("Y") || opcion.equalsIgnoreCase("N")));
+
+    	if (opcion.equalsIgnoreCase("Y")) {
+    		direccion = capturarCadenaCaracteres("Digite la nueva dirección del proveedor");
+    		proveedor.setDireccion(direccion);
+    	}
+    }
+    
+    private static void mostrarDatosProveedor(Proveedor proveedor) {
+    	System.out.println("Datos del Proveedor");
+    	System.out.println("\tCédula: \t" + proveedor.getId());
+    	System.out.println("\tNombres: \t" + proveedor.getNombre());
+    	System.out.println("\tTelefono: \t" + proveedor.getTelefono());
+    	System.out.println("\tDirección: \t" + proveedor.getDireccion());
+	}
+
+	private static Proveedor buscarProveedor(List<Proveedor> proveedores) {
+		Integer numId;
+    	
+    	do {
+			numId = capturarNumeroEntero("Digite el número de ID del proveedor a buscar");
+			if(numId <= 0){
+				System.out.println("MENSAJE: El número de ID debe ser un número entero positivo");
+				numId = 0;			
+			}			
+		} while (numId <= 0);
+    	return buscarProveedorPorId(proveedores, String.valueOf(numId)); // Si proveedor es null es porque no existe un proveedor con el id ingresada
+	}
+
+	private static Proveedor crearProveedor(List<Proveedor> proveedores) {
+
+		System.out.println("--- 1. Crear Proveedor ---");
+		Integer numId, telefono;
+		String nombres, direccion;
+		Proveedor proveedor;
+		do {
+			numId = capturarNumeroEntero("Digite el número de ID del proveedor nuevo");
+			if(numId <= 0){
+				System.out.println("MENSAJE: El número de ID debe ser un número entero positivo");
+				numId = 0;
+				continue;
+			}
+			proveedor = buscarProveedorPorId(proveedores, String.valueOf(numId)); // Si proveedor es null es porque no existe un proveedor con el id ingresada
+			
+			if(proveedor != null) {  
+				System.out.printf("MENSAJE: Ya existe otro proveedor con el número de ID: %s.\n", String.valueOf(numId));
+				numId = 0;
+			}
+		} while (numId <= 0);
+		
+		nombres = capturarCadenaCaracteres("Digite los nombres del proveedor nuevo");
+
+		do {
+			telefono = capturarNumeroEntero("Digite el número de telefono del proveedor nuevo");
+			if(telefono <= 0) {
+				System.out.println("MENSAJE: El número de telefono debe ser un valor positivo");
+			}
+		}while(telefono <= 0);
+		
+		direccion = capturarCadenaCaracteres("Digite la direccion del cliente nuevo");
+		
+		return new Proveedor(numId, nombres, String.valueOf(telefono), direccion);
+	}
+
+	private static Proveedor buscarProveedorPorId(List<Proveedor> proveedores, String id) {
+		for (Proveedor proveedor : proveedores) {
+			if(proveedor.getId().equals(id)) return proveedor;
+		}
+		return null;
+	}
+
+	private static void eliminarCliente(List<Cliente> clientes, List<Factura> facturas) {
     	Cliente cliente = buscarCliente(clientes);
     	if (cliente != null) {
     		// El cliente existe, debo verificar que no tenga facturas 
