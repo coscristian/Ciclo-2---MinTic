@@ -1,7 +1,5 @@
 package com.cristian.desarrollo;
 
-
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -70,12 +68,11 @@ public class BaseDatos {
     }
 
     public boolean crearDepartamento(Departments departamento) throws SQLException{
-        var statement = conn.createStatement();
-        var lineas = statement.executeUpdate(
-            String.format("INSERT INTO departments (department_id, department_name, location_id)" +
-            " VALUES (%d, %s, %d)",
-            departamento.getId(), departamento.getName(), departamento.getLocation()));
+        var statement = conn.prepareStatement("INSERT INTO departments values (?, ?, ?)");
+        statement.setInt(1, departamento.getId());
+        statement.setString(2, departamento.getName());
+        statement.setInt(3, departamento.getLocation());
+        var lineas = statement.executeUpdate(); // Ejecuta la sentencia
         return lineas == 1;
     }
-
 }

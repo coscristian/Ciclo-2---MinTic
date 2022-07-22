@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.cristian.desarrollo.dto.Departments;
+
 public class App {
     public static void main( String[] args ){
         var baseDatos = new BaseDatos();
@@ -13,6 +15,12 @@ public class App {
             var connection = baseDatos.getConnection("jdbc:sqlite:" + archivoDB);
             System.out.println("Se ha realizado la conexión a la BBDD");
             
+            var departamento = new Departments();
+            departamento.setId(-1);
+            departamento.setName("Mi departamento negativo");
+            departamento.setLocation(1700);
+            baseDatos.crearDepartamento(departamento);
+
             //pruebaTablaDemo(connection);
             // Mostrando los departamentos
             System.out.println("Departments\nID\tName\t\tLocation");
@@ -25,6 +33,8 @@ public class App {
             System.out.println("Jobs\nID\tTitle\t\tMin Salary\t\tMax Salary");
             baseDatos.listarCargos().
                 forEach(cargo -> System.out.println(cargo));
+            
+            
 
             // Final --> Cerrar conexión con BBDD
             baseDatos.closeConnection();
