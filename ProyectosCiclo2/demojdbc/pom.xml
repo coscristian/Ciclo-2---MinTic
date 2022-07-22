@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.cristian.desarrollo</groupId>
-  <artifactId>ciclo2-reto2</artifactId>
+  <artifactId>demojdbc</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>ciclo2-reto2</name>
+  <name>demojdbc</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
