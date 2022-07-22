@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 public class App {
     public static void main( String[] args ){
         var baseDatos = new BaseDatos();
@@ -20,6 +19,12 @@ public class App {
             baseDatos.listarDepartamentos().
                 forEach(dep -> System.out.print(dep));
 
+            System.out.println();
+            System.out.println();
+            // Mostrando los Jobs
+            System.out.println("Jobs\nID\tTitle\t\tMin Salary\t\tMax Salary");
+            baseDatos.listarCargos().
+                forEach(cargo -> System.out.println(cargo));
 
             // Final --> Cerrar conexión con BBDD
             baseDatos.closeConnection();

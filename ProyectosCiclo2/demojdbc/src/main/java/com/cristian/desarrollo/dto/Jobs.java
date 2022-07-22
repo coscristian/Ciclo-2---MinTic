@@ -33,8 +33,11 @@ public class Jobs {
     public void setMaxSalary(Double maxSalary) {
         MaxSalary = maxSalary;
     }
-
-
+    
+    @Override
+    public String toString() {
+        return "Jobs [MaxSalary=" + MaxSalary + ", id=" + id + ", minSalary=" + minSalary + ", title=" + title + "]";
+    }
 
     
 }
