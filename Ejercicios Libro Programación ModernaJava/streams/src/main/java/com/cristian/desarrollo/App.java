@@ -1,13 +1,12 @@
 package com.cristian.desarrollo;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+import com.cristian.desarrollo.leyendo.LeerFichero;
+
+public class App {
+    public static void main( String[] args ){
+        System.out.println();
+        LeerFichero accediendo = new LeerFichero();
+        accediendo.lee();
+        System.out.println();
     }
 }
