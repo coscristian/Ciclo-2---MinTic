@@ -1,5 +1,6 @@
 package com.cristian.desarrollo.leyendo;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -9,12 +10,14 @@ public class LeerFichero {
         try {
             var ruta = "/home/coscristian/Escritorio/Ciclo-2---MinTic/Ejercicios Libro Programación ModernaJava/streams/src/main/java/com/cristian/desarrollo/leyendo/archivo.txt";
             FileReader entrada = new FileReader(ruta);
+            // Buffer: Memoria intermedia
+            BufferedReader miBuffer = new BufferedReader(entrada);
 
-            int c = entrada.read(); // Retorna el valor numerico del caracter leido
-            while(c != -1){
-                char letra = (char) c;
-                System.out.print(letra);
-                c = entrada.read();
+            String linea = "";
+
+            while(linea != null){
+                linea = miBuffer.readLine();
+                if (linea != null) System.out.print(linea);
             }
 
             entrada.close();
