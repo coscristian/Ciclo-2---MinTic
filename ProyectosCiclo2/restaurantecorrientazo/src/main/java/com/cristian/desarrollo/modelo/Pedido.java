@@ -18,7 +18,7 @@ public class Pedido {
     }
 
     public Pedido(String nombre, Corrientazo almuerzo) {
-        this(nombre, almuerzo, new ArrayList<>());
+        this(nombre, almuerzo, new ArrayList<Adicional>());
     }
 
     public Pedido(String nombre, Corrientazo almuerzo, List<Adicional> alimentosAdicionales) {

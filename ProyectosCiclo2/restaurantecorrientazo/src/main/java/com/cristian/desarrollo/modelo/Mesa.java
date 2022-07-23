@@ -8,7 +8,7 @@ public class Mesa {
     List<Pedido> pedidos;
 
     public Mesa(Integer numero){
-        this(numero, new ArrayList<>());
+        this(numero, new ArrayList<Pedido>());
     }
     
     public Mesa(Integer numero, List<Pedido> pedidos){
