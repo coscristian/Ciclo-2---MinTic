@@ -12,15 +12,17 @@ public class Creando {
         // Crear directorio
         //ruta.mkdir();
 
+        String archivo_destino = ruta.getAbsolutePath();
+        System.out.println(archivo_destino);
         // Crear archivo, lo crea siempre y cuando no esté creado
         try {
             ruta.createNewFile();
         } catch (IOException e) {
             System.out.println("Error: " + e);
         }
+
+        // Escribiendo en el archivo
+        Escribiendo accede_es = new Escribiendo();
+        accede_es.escribir(archivo_destino);
     }
-    
-
-
-    
 }
