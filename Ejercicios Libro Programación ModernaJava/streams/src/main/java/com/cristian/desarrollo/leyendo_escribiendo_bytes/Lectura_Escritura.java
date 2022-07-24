@@ -46,9 +46,4 @@ public class Lectura_Escritura {
             System.out.println("ERROR: " + e);
         }
     }
-
-
-
-
-
 }
