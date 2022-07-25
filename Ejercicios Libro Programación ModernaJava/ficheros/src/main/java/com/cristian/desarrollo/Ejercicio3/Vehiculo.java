@@ -50,7 +50,4 @@ public class Vehiculo {
         return "El vehiculo tiene una matricula " + matricula + ", su marca es " + marca + ", el tamaño del deposito es de " +
             tamanioDeposito + " litros y su modelo es " + modelo;
     }
-
-    
-
 }
