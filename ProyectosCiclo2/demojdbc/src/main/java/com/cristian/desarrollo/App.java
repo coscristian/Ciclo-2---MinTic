@@ -34,8 +34,6 @@ public class App {
             baseDatos.listarCargos().
                 forEach(cargo -> System.out.println(cargo));
             
-            
-
             // Final --> Cerrar conexión con BBDD
             baseDatos.closeConnection();
         }catch(SQLException ex){
