@@ -1,8 +1,13 @@
 package co.edu.utp.misiontic2022.c2.cdiaz.bookshop;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DBManager implements AutoCloseable {
@@ -14,6 +19,9 @@ public class DBManager implements AutoCloseable {
 
     private void connect() throws SQLException {
         // TODO: program this method
+        String url = "/home/coscristian/Escritorio/Ciclo-2---MinTic/ProyectosCiclo2/libros/src/main/java/co/edu/utp/misiontic2022/c2/cdiaz/bookshop/bookShop.db";
+        String bbdd = "jdbc:sqlite:";
+        connection = DriverManager.getConnection(bbdd + url, "", "");
     }
 
     /**
@@ -48,7 +56,14 @@ public class DBManager implements AutoCloseable {
      */
     public int getStock(int bookId) throws SQLException {
         // TODO: program this method
-        return 0;
+        var sql = "SELECT cant_existente,id " +
+                "FROM stock " +
+                "WHERE id = " + bookId + ";";
+        PreparedStatement preparedStatm = connection.prepareStatement(sql);
+        ResultSet rset = preparedStatm.executeQuery();
+        //if(rset.isBeforeFirst()) // checks if the book has at least 1 unit, otherwise returns 0
+            return rset.getInt("cant_existente");
+        //return 0;
     }
 
     /**
@@ -60,6 +75,14 @@ public class DBManager implements AutoCloseable {
      */
     public Book searchBook(String isbn) throws SQLException {
         // TODO: program this method
+        var sql = "SELECT titulo, isbn, anio_pub, id " + 
+                "FROM libro " + 
+                "WHERE isbn = " + isbn + ";";
+        PreparedStatement preparedStatm = connection.prepareStatement(sql);
+        ResultSet rset = preparedStatm.executeQuery();
+        
+        if (rset.isBeforeFirst()) // returns false if the rset contains no rows
+            return new Book(rset.getString("titulo"), rset.getString("isbn"), rset.getInt("anio_pub"), rset.getInt("id"));
         return null;
     }
 
@@ -79,14 +102,43 @@ public class DBManager implements AutoCloseable {
     /**
      * Sell a book.
      *
-     * @param book The book's identifier.
+     * @param bookId The book's identifier.
      * @param units Number of units that are being sold.
      * @return True if the operation succeeds, or false otherwise
      *         (e.g. when the stock of the book is not big enough).
      * @throws SQLException If something fails with the DB.
      */
-    public boolean sellBook(int book, int units) throws SQLException {
+    public boolean sellBook(int bookId, int units) throws SQLException {
         // TODO: program this method
+        var sql = "SELECT cant_existente " + 
+                "FROM stock " + 
+                "WHERE id = " + bookId + ";";
+        PreparedStatement preparedStat = connection.prepareStatement(sql);
+        ResultSet rSet = preparedStat.executeQuery();
+        
+        int availableBooks = rSet.getInt("cant_existente");
+
+        if (units <= availableBooks){
+            // Registrar venta
+            Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
+            String strDate = formatter.format(date);
+
+            sql = "INSERT INTO venta VALUES (?,?,?);";
+            preparedStat = connection.prepareStatement(sql);
+            preparedStat.setString(1, strDate);
+            preparedStat.setString(2, String.valueOf(bookId));
+            preparedStat.setInt(3, units);
+        
+            var lineas = preparedStat.executeUpdate();
+            // Falta añadir la hora a la tabla de venta y listooo
+            // Actualización existencias
+            sql = "UPDATE stock " + 
+                "SET cant_existente = " + (availableBooks - units) + " " + 
+                "WHERE id = " + bookId + ";";
+            preparedStat = connection.prepareStatement(sql);
+            return preparedStat.executeUpdate() == 1 && lineas == 1;
+        }
         return false;
     }
 
@@ -98,6 +150,19 @@ public class DBManager implements AutoCloseable {
      */
     public List<Book> listBooks() throws SQLException {
         // TODO: program this method
-        return new ArrayList<Book>();
+        var sql = "SELECT * FROM libro";
+        PreparedStatement preparedSt = connection.prepareStatement(sql);
+        ResultSet rset = preparedSt.executeQuery();
+        
+        List<Book> booksList = new ArrayList<>();
+
+        while(rset.next()){
+            var title = rset.getString("titulo");
+            var isbn = rset.getString("isbn");
+            var year = rset.getInt("anio_pub");
+            var id = rset.getInt("id");
+            booksList.add(new Book(title, isbn, year, id));
+        }
+        return booksList;
     }
 }

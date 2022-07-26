@@ -6,6 +6,13 @@ public class Book {
     private int year;
     private int id;
 
+    public Book(String title, String isbn, int year, int id){
+        this.title = title;
+        this.isbn = isbn;
+        this.year = year;
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

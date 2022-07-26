@@ -20,10 +20,11 @@ public class BookShop {
             System.out.println("==========================================");
             System.out.println(" Gestor de Librería");
             System.out.println("==========================================");
-            System.out.println("1. Listado de libros");
-            System.out.println("2. Busqueda de libro");
-            System.out.println("3. Consulta de existencias");
-            System.out.println("4. Venta de libros");
+            System.out.println("1. Agregar libro");
+            System.out.println("2. Listado de libros");
+            System.out.println("3. Busqueda de libro");
+            System.out.println("4. Consulta de existencias");
+            System.out.println("5. Venta de libros");
             System.out.println("0. Salir");
             System.out.println("==========================================");
             System.out.print("Ingrese su opción: ");
@@ -34,15 +35,18 @@ public class BookShop {
                         mainLoop = false;
                         break;
                     case 1:
-                        listadoLibros();
+                        //agregarLibro();
                         break;
                     case 2:
-                        busquedaLibro();
+                        listadoLibros();
                         break;
                     case 3:
-                        consultaExistencias();
+                        busquedaLibro();
                         break;
                     case 4:
+                        consultaExistencias();
+                        break;
+                    case 5:
                         venta();
                         break;
                     default:
@@ -53,6 +57,32 @@ public class BookShop {
             }
         }
     }
+
+/*     private void agregarLibro(){
+        System.out.println("");
+        System.out.println("==========================================");
+        System.out.println(" Agregar libro");
+        System.out.println("==========================================");
+        try (var manager = new DBManager()) {
+            System.out.println("Ingrese el titulo del libro");
+            String title = input.readLine();
+            
+            System.out.println("Ingrese el ISBN del libro");
+            String isbn = input.readLine();
+
+            System.out.println("Ingrese el año del libro");
+            int year = input.readLine();
+
+            Book book = new Book(title, isbn, year);
+
+
+        }catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println("Excepción SQL: " + ex.getMessage());
+            System.out.println("Estado SQL: " + ex.getSQLState());
+            System.out.println("Código de error: " + ex.getErrorCode());
+        }
+    } */
 
     private void listadoLibros() {
         System.out.println("");
