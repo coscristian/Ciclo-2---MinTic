@@ -35,7 +35,7 @@ public class BookShop {
                         mainLoop = false;
                         break;
                     case 1:
-                        //agregarLibro();
+                        agregarLibro();
                         break;
                     case 2:
                         listadoLibros();
@@ -58,31 +58,44 @@ public class BookShop {
         }
     }
 
-/*     private void agregarLibro(){
+    private void agregarLibro() throws IOException{
         System.out.println("");
         System.out.println("==========================================");
         System.out.println(" Agregar libro");
         System.out.println("==========================================");
         try (var manager = new DBManager()) {
-            System.out.println("Ingrese el titulo del libro");
-            String title = input.readLine();
+            System.out.print("Ingrese el titulo del libro: ");
+            var title = input.readLine();
             
-            System.out.println("Ingrese el ISBN del libro");
-            String isbn = input.readLine();
+            System.out.print("Ingrese el ISBN del libro: ");
+            var isbn = input.readLine();
 
-            System.out.println("Ingrese el año del libro");
-            int year = input.readLine();
+            System.out.print("Ingrese el año del libro: ");
+            var year = input.readLine();
 
-            Book book = new Book(title, isbn, year);
+            System.out.print("Ingrese el id del libro: ");
+            var id = input.readLine();
 
+            System.out.print("Ingrese la cantidad de existencias del libro: ");
+            var cantExistencias = input.readLine();
 
+            if (manager.searchBook(isbn) == null){ // The book doesn't exists
+                var book = new Book(title, isbn, Integer.valueOf(year), Integer.valueOf(id));
+                if (manager.addBookDB(book, Integer.valueOf(cantExistencias))){
+                    System.out.println("Libro agregado exitosamente.");
+                }else{
+                    System.out.println("No se ha podido agregar el libro.");
+                }
+            }else{
+                System.out.println("Este libro ya existe en el sistema.");
+            }
         }catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println("Excepción SQL: " + ex.getMessage());
             System.out.println("Estado SQL: " + ex.getSQLState());
             System.out.println("Código de error: " + ex.getErrorCode());
         }
-    } */
+    } 
 
     private void listadoLibros() {
         System.out.println("");

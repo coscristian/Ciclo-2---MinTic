@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +35,23 @@ public class DBManager implements AutoCloseable {
             connection.close();
         }
         connection = null;
+    }
+
+    public boolean addBookDB(Book book, int cantExistencias) throws SQLException{
+        // Add book
+        var sqlAddBook = "INSERT INTO libro VALUES (?, ?, ?, ?);";
+        PreparedStatement preparedStatm = connection.prepareStatement(sqlAddBook);
+        preparedStatm.setString(1, book.getIsbn());
+        preparedStatm.setInt(2, book.getId());
+        preparedStatm.setString(3, book.getTitle());
+        preparedStatm.setInt(4, book.getYear());
+
+        // Add amount of existences of the book
+        var sqlAddExistences = "INSERT INTO stock VALUES (?, ?);";
+        PreparedStatement preparedStatm2 = connection.prepareStatement(sqlAddExistences);
+        preparedStatm2.setInt(1, book.getId());
+        preparedStatm2.setInt(2, cantExistencias);
+        return preparedStatm.executeUpdate() == 1 && preparedStatm2.executeUpdate() == 1;
     }
 
      /**
@@ -99,6 +118,28 @@ public class DBManager implements AutoCloseable {
         return sellBook(book.getId(), units);
     }
 
+    public boolean updateExcistences(int units, int bookId, int availableBooks) throws SQLException{
+        String sql = "UPDATE stock " + 
+        "SET cant_existente = " + (availableBooks - units) + " " + 
+        "WHERE id = " + bookId + ";";
+        PreparedStatement preparedStat = connection.prepareStatement(sql);
+        return preparedStat.executeUpdate() == 1;
+    }
+
+    public boolean registerSale(int bookId, int units) throws SQLException{
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
+        LocalDateTime now = LocalDateTime.now(); 
+        String strDate = dtf.format(now);
+
+        String sql = "INSERT INTO venta VALUES (?,?,?);";
+        PreparedStatement preparedStat = connection.prepareStatement(sql);
+        preparedStat.setString(1, strDate);
+        preparedStat.setString(2, String.valueOf(bookId));
+        preparedStat.setInt(3, units);
+    
+        return preparedStat.executeUpdate() == 1;
+    }
+
     /**
      * Sell a book.
      *
@@ -120,24 +161,9 @@ public class DBManager implements AutoCloseable {
 
         if (units <= availableBooks){
             // Registrar venta
-            Date date = new Date();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yy");
-            String strDate = formatter.format(date);
-
-            sql = "INSERT INTO venta VALUES (?,?,?);";
-            preparedStat = connection.prepareStatement(sql);
-            preparedStat.setString(1, strDate);
-            preparedStat.setString(2, String.valueOf(bookId));
-            preparedStat.setInt(3, units);
-        
-            var lineas = preparedStat.executeUpdate();
-            // Falta añadir la hora a la tabla de venta y listooo
-            // Actualización existencias
-            sql = "UPDATE stock " + 
-                "SET cant_existente = " + (availableBooks - units) + " " + 
-                "WHERE id = " + bookId + ";";
-            preparedStat = connection.prepareStatement(sql);
-            return preparedStat.executeUpdate() == 1 && lineas == 1;
+            if(registerSale(bookId, units) && updateExcistences(units, bookId, availableBooks)){
+                return true;
+            }
         }
         return false;
     }
