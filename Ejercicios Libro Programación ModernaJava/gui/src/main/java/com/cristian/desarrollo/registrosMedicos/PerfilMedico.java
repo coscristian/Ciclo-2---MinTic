@@ -109,12 +109,12 @@ public class PerfilMedico {
 
     @Override
     public String toString(){
-        String infoTabla =
+        String infoTabla = String.format(
                    "VALORES DE BMI %n" + 
                    "Bajo peso: menos de 18.5 %n" + 
                    "Normal: entre 18.5 y 24.9 %n" + 
                    "Sobrepeso: entre 25 y 29.9 %n" + 
-                   "Obeso: 30 o más %n";
+                   "Obeso: 30 o más %n");
                     
         return String.format(
             "%nNombre:\t %s %n" + 
