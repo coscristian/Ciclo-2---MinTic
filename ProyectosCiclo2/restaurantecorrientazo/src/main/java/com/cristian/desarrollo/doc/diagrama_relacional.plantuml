@@ -54,19 +54,16 @@ Entity OpcionPrincipio{
 
 Entity OpcionCarne{
     id: Integer <<PK>>
-    --    
     nombre: varchar(50)
 }
 
 Entity OpcionEnsalada{
-    id: Integer <<PK>>
-    --    
+    id: Integer <<PK>>    
     nombre: varchar(50)
 }
 
 Entity OpcionJugo{
-    id: Integer <<PK>>
-    --    
+    id: Integer <<PK>>    
     nombre: varchar(50)
 }
 

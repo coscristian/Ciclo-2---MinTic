@@ -9,7 +9,7 @@ CREATE TABLE Pedido(
     cliente VARCHAR(100) NOT NULL,
     estado VARCHAR(100) NOT NULL,
     id_mesa INTEGER NOT NULL,
-    CONSTRAINT Pedido_mesa_FK FOREIGN KEY id_mesa REFERENCES Mesa(id)
+    CONSTRAINT Pedido_mesa_FK FOREIGN KEY (id_mesa) REFERENCES Mesa(id)
 );
 
 CREATE TABLE Adicional (
@@ -20,9 +20,56 @@ CREATE TABLE Adicional (
 );
 
 CREATE TABLE PedidoAdicional(
-    id_pedido INTEGER PRIMARY KEY,
-    id_adicional INTEGER
+    id_pedido INTEGER,
+    id_adicional INTEGER,
     CONSTRAINT PedidoAdicional_Pedido_PK PRIMARY KEY (id_pedido, id_adicional),
     CONSTRAINT PedidoAdicional_FK FOREIGN KEY (id_pedido) REFERENCES Pedido(id),
-    CONSTRAINT Pedido_mesa_FK FOREIGN KEY id_mesa REFERENCES Mesa(id)
+    CONSTRAINT PedidoAdicional_Adicional_FK FOREIGN KEY (id_adicional) REFERENCES Adicional(id)
+);
+
+CREATE TABLE OpcionSopa(
+    id INTEGER PRIMARY KEY,
+    nombre VARCHAR(100),
+    CONSTRAINT OpcionSopa_nombre_UQ UNIQUE(nombre)
+);
+
+CREATE TABLE OpcionPrincipio(
+    id INTEGER PRIMARY KEY,
+    nombre VARCHAR(50),
+    CONSTRAINT OpcionPrincipio_nombre_UQ UNIQUE(nombre)
+);
+
+CREATE TABLE OpcionCarne(
+    id INTEGER PRIMARY KEY,
+    nombre VARCHAR(50),
+    CONSTRAINT OpcionCarne_nombre_UQ UNIQUE(nombre)
+);
+
+CREATE TABLE OpcionEnsalada(
+    id INTEGER PRIMARY KEY,
+    nombre VARCHAR(50),
+    CONSTRAINT OpcionEnsalada_nombre_UQ UNIQUE(nombre)
+);
+
+CREATE TABLE OpcionJugo(
+    id INTEGER PRIMARY KEY,
+    nombre VARCHAR(50),
+    CONSTRAINT OpcionJugo_nombre_UQ UNIQUE(nombre)
+);
+
+CREATE TABLE Corrientazo(
+    id_pedido INTEGER PRIMARY KEY,
+    precio INTEGER,
+    id_sopa INTEGER,
+    id_principio INTEGER,
+    id_carne INTEGER,
+    id_ensalada INTEGER,
+    id_jugo INTEGER,
+    -- FK
+    CONSTRAINT Corrientazo_id_pedido_FK FOREIGN KEY (id_pedido) REFERENCES Pedido(id),
+    CONSTRAINT Corrientazo_id_sopa_pedido_FK FOREIGN KEY (id_sopa) REFERENCES OpcionSopa(id),
+    CONSTRAINT Corrientazo_id_principio_pedido_FK FOREIGN KEY (id_principio) REFERENCES OpcionPrincipio(id),
+    CONSTRAINT Corrientazo_id_carne_pedido_FK FOREIGN KEY (id_carne) REFERENCES OpcionCarne(id),
+    CONSTRAINT Corrientazo_id_ensalada_pedido_FK FOREIGN KEY (id_ensalada) REFERENCES OpcionEnsalada(id),
+    CONSTRAINT Corrientazo_id_jugo_pedido_FK FOREIGN KEY (id_jugo) REFERENCES OpcionJugo(id)
 );

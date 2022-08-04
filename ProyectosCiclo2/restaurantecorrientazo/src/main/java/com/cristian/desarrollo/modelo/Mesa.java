@@ -6,14 +6,14 @@ import java.util.List;
 import com.cristian.desarrollo.exception.PagoException;
 
 public class Mesa {
-    private Integer numero;
+    private String numero;
     List<Pedido> pedidos;
 
-    public Mesa(Integer numero){
+    public Mesa(String numero){
         this(numero, new ArrayList<Pedido>());
     }
     
-    public Mesa(Integer numero, List<Pedido> pedidos){
+    public Mesa(String numero, List<Pedido> pedidos){
         this.numero = numero;
         this.pedidos = pedidos;
     }
@@ -22,11 +22,11 @@ public class Mesa {
         return pedidos;
     }
 
-    public Integer getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(Integer numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -43,6 +43,7 @@ public class Mesa {
         }
         return valorMesa; */
         var total = pedidos.stream()
+                .filter(pedido -> pedido.getEstado() == EstadoPedido.PEDIENTE_COBRAR) // Solo pasan al map los estados que esten pendientes por cobrar
                 .map(pedido -> pedido.calcularValor())
                 .reduce((a, b) -> a + b)
                 .orElse(0);
@@ -69,6 +70,10 @@ public class Mesa {
 
         // Retorna la devuelta
         return efectivo - total;
+    }
 
+    @Override
+    public String toString() {
+        return "Mesa [numero=" + numero + "]";
     }
 }

@@ -15,6 +15,11 @@ public class OpcionCarne {
         this.nombre = nombre;
     }
 
+    @Override
+    public String toString() {
+        return getNombre();
+    }
+
     
     
 }
