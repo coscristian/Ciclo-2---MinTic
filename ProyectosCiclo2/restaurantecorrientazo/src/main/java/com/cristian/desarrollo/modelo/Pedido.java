@@ -1,6 +1,5 @@
 package com.cristian.desarrollo.modelo;
 
-import com.cristian.desarrollo.modelo.EstadoPedido.*;
 import java.util.ArrayList;
 import java.util.List;
 

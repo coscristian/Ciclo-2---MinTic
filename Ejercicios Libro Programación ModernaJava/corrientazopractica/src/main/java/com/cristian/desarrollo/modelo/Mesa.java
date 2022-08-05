@@ -34,10 +34,11 @@ public class Mesa {
 
     public Integer calcularValorMesa(){
 
-        
-
-
-        return null;
+        return pedidos.stream()
+                .filter(pedido -> pedido.getEstado() == EstadoPedido.PENDIENTE_COBRAR)
+                .map(pedido -> pedido.calcularValorPedido())
+                .reduce((a, b) -> a + b)
+                .orElse(0);
     }
 
     public Integer pagar(Integer efectivo){

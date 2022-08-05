@@ -31,7 +31,21 @@ public class App {
         // Asignación de pedidos a las mesas
         mesa1.agregarPedido(cristian);
         mesa1.agregarPedido(juan);
+
+        // Realizar entrega de pedidos
+        cristian.entregarPedido();
+        juan.entregarPedido();
+
+        // Vista
+        System.out.println("");
         System.out.printf("Cristian --> %d %n",cristian.calcularValorPedido());
-        mesa1.getPedidos().forEach(p -> System.out.println(p));
+        System.out.printf("Juan --> %d %n",juan.calcularValorPedido());
+        
+        System.out.printf("%n Mesa 1 %n");
+        mesa1.getPedidos().forEach(p -> System.out.println("\t" + p));
+
+        System.out.printf("%n A pagar en la mesa 1: $%,d%n", mesa1.calcularValorMesa());
+        
+
     }
 }

@@ -167,6 +167,4 @@ public class RestauranteControlador {
     public void iniciarAplicacion() {
         menuPrincipal.iniciarAplicacion();
     }
-
-
 }

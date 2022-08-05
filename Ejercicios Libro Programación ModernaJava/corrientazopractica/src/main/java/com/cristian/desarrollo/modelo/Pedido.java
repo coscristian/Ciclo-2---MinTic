@@ -30,6 +30,14 @@ public class Pedido {
         return almuerzo;
     }
 
+    public EstadoPedido getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPedido estado) {
+        this.estado = estado;
+    }
+
     public void setAlmuerzo(Corrientazo almuerzo) {
         this.almuerzo = almuerzo;
     }
@@ -52,7 +60,7 @@ public class Pedido {
     }
 
     public void entregarPedido(){
-        estado = EstadoPedido.PENDIENTE_COBRAR;
+        this.estado = EstadoPedido.PENDIENTE_COBRAR;
     }
 }
 
