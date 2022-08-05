@@ -2,14 +2,16 @@ package com.cristian.desarrollo.modelo;
 
 public class Corrientazo {
     private Integer precio;
+
+    // Opciones de comida para el corrientazo
     OpcionSopa sopa;
     OpcionPrincipio principio;
     OpcionCarne carne;
     OpcionEnsalada ensalada;
     OpcionJugo jugo;
 
-    public Corrientazo(Integer precio, OpcionSopa sopa, OpcionPrincipio principio, OpcionCarne carne,
-             OpcionJugo jugo) {
+    // Constructores
+    public Corrientazo(Integer precio, OpcionSopa sopa, OpcionPrincipio principio, OpcionCarne carne, OpcionJugo jugo) {
         this(precio, sopa, principio, carne, null, jugo);
     }
 
@@ -23,8 +25,14 @@ public class Corrientazo {
         this.jugo = jugo;
     }
 
+    // Getters y Setters
+
     public Integer getPrecio() {
         return precio;
+    }
+
+    public void setPrecio(Integer precio) {
+        this.precio = precio;
     }
 
     public OpcionSopa getSopa() {
@@ -65,14 +73,5 @@ public class Corrientazo {
 
     public void setJugo(OpcionJugo jugo) {
         this.jugo = jugo;
-    }
-
-    public void setPrecio(Integer precio) {
-        this.precio = precio;
-    }
-
-    @Override
-    public String toString() {
-        return "Corrientazo [precio=" + precio + ", sopa=" + sopa + ", carne=" + carne + ", ensalada=" + ensalada + ", jugo=" + jugo + ", principio=" + principio + "]";
     }
 }
