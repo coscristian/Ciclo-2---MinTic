@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.cristian.desarrollo.exception.PagoException;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.OpcionCarne;
 import com.cristian.desarrollo.modelo.OpcionEnsalada;
@@ -11,12 +12,13 @@ import com.cristian.desarrollo.modelo.OpcionJugo;
 import com.cristian.desarrollo.modelo.OpcionPrincipio;
 import com.cristian.desarrollo.modelo.OpcionSopa;
 import com.cristian.desarrollo.modelo.Pedido;
+import com.cristian.desarrollo.vista.MenuPrincipal;
 import com.cristian.desarrollo.vista.MesaVista;
 import com.cristian.desarrollo.vista.PedidoVista;
 
 // Acciones que podrá hacer el usuario en el sistema
 public class RestauranteControlador {
-
+    private MenuPrincipal menuPrincipal;
     private MesaVista mesaVista;
     private List<Mesa> mesas;
     private PedidoVista pedidoVista;
@@ -27,6 +29,7 @@ public class RestauranteControlador {
     private List<OpcionJugo> jugos;
 
     public RestauranteControlador(Scanner sc){
+        this.menuPrincipal = new MenuPrincipal(sc, this);
         this.mesaVista = new MesaVista(sc, this);
         this.pedidoVista = new PedidoVista(sc, this);
 
@@ -104,8 +107,6 @@ public class RestauranteControlador {
         return jugos;
     }
     
-    
-
     public void crearMesa(){
         // Pedir al usuario la información necesaria para crear la mesa
         Mesa mesa = mesaVista.pedirInformacionMesa();
@@ -137,6 +138,34 @@ public class RestauranteControlador {
 
         // Marcar como entregado el pedido
         pedido.entregarPedido();
+    }
+
+    public void mostrarPedidos(Mesa mesa) {
+        mesaVista.mostrarPedidos(mesa);
+    }
+
+    public void pagarCuenta(Mesa mesa) {
+        var efectivo = mesaVista.leerValorEfectivo();
+
+        try {
+            // Valido si es suficiente para pagar
+            var total = mesa.calcularValor();
+            if(efectivo < total){
+                throw new PagoException("El efectivo no es suficiente para cubrir la cuenta");
+            }
+
+            // Elimino los pedidos de la mesa
+            mesa.limpiarPedidos();
+            
+            // Retorna la devuelta
+            mesaVista.mostrarMensaje(String.format("La devuelta son: $ %,d",(efectivo - total)));
+        } catch (Exception e) {
+            mesaVista.mostrarMensaje(e.getMessage());   
+        }
+    }
+
+    public void iniciarAplicacion() {
+        menuPrincipal.iniciarAplicacion();
     }
 
 

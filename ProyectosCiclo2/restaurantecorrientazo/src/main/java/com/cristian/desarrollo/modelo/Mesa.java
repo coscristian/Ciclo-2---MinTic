@@ -50,30 +50,12 @@ public class Mesa {
         return total;
     }
 
-    public Integer pagar(Integer efectivo) throws PagoException{
-/*         Integer totalPagar = calcularValorMesa();
-        if (efectivo >= totalPagar){
-            pedidos = new ArrayList<>();
-            return efectivo - totalPagar;
-        }else{
-            return -1;
-        } */
-
-        // Valido si es suficiente para pagar
-        var total = calcularValor();
-        if(efectivo < total){
-            throw new PagoException("El efectivo no es suficiente para cubrir la cuenta");
-        }
-
-        // Elimino los pedidos de la mesa
-        pedidos.clear();
-
-        // Retorna la devuelta
-        return efectivo - total;
-    }
-
     @Override
     public String toString() {
         return "Mesa [numero=" + numero + "]";
+    }
+
+    public void limpiarPedidos() {
+        pedidos.clear();
     }
 }

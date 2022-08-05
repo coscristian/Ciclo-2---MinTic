@@ -91,5 +91,33 @@ public class MesaVista {
 
         return respuesta;
     }
+
+    public Integer leerValorEfectivo() {
+        Integer respuesta = null;
+        while(respuesta == null){
+            try {
+                System.out.print("Ingrese el valor del efectivo?: ");
+                respuesta = sc.nextInt();
+            } catch (Exception e) {
+                System.err.println("VALOR INVALIDO, INTENTE DE NUEVO !!!");
+                e.printStackTrace(); // Imprime todo el mensaje de error
+            } finally{
+                sc.nextLine();
+            }
+        }
+        return respuesta;
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
+
+    public void mostrarPedidos(Mesa mesa) {
+        var opciones = mesa.getPedidos();
+        System.out.println("Los pedidos son:");
+        for (int i = 0; i < opciones.size(); i++) {
+            System.out.printf(" %d -> %s %n", (i + 1), opciones.get(i));
+        }
+    }
     
 }
