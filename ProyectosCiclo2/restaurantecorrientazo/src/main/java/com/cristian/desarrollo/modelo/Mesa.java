@@ -6,6 +6,7 @@ import java.util.List;
 import com.cristian.desarrollo.exception.PagoException;
 
 public class Mesa {
+    private Integer id;
     private String numero;
     List<Pedido> pedidos;
 
@@ -16,6 +17,14 @@ public class Mesa {
     public Mesa(String numero, List<Pedido> pedidos){
         this.numero = numero;
         this.pedidos = pedidos;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public List<Pedido> getPedidos() {

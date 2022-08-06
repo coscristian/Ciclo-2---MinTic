@@ -1,8 +1,12 @@
 package com.cristian.desarrollo.controlador;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+// Clase que se encarga de definir y administrar como se se va a acceder a la BBDD
+
 
 import com.cristian.desarrollo.exception.PagoException;
 import com.cristian.desarrollo.modelo.Mesa;
@@ -12,6 +16,7 @@ import com.cristian.desarrollo.modelo.OpcionJugo;
 import com.cristian.desarrollo.modelo.OpcionPrincipio;
 import com.cristian.desarrollo.modelo.OpcionSopa;
 import com.cristian.desarrollo.modelo.Pedido;
+import com.cristian.desarrollo.modelo.dao.MesaDao;
 import com.cristian.desarrollo.vista.MenuPrincipal;
 import com.cristian.desarrollo.vista.MesaVista;
 import com.cristian.desarrollo.vista.PedidoVista;
@@ -20,7 +25,9 @@ import com.cristian.desarrollo.vista.PedidoVista;
 public class RestauranteControlador {
     private MenuPrincipal menuPrincipal;
     private MesaVista mesaVista;
-    private List<Mesa> mesas;
+    
+    private MesaDao mesaDao;
+
     private PedidoVista pedidoVista;
     private List<OpcionSopa> sopas;
     private List<OpcionPrincipio> principios;
@@ -33,8 +40,7 @@ public class RestauranteControlador {
         this.mesaVista = new MesaVista(sc, this);
         this.pedidoVista = new PedidoVista(sc, this);
 
-        this.mesas = new ArrayList<>();
-
+        this.mesaDao = new MesaDao();
         this.sopas = new ArrayList<>();
         this.principios = new ArrayList<>();
         this.carnes = new ArrayList<>();
@@ -43,14 +49,14 @@ public class RestauranteControlador {
     }
 
     //TODO: Solo para las pruebas
-    public void cargarBaseDatos(){
-        mesas.add(new Mesa("01"));
-        mesas.add(new Mesa("02"));
-        mesas.add(new Mesa("03"));
-        mesas.add(new Mesa("04"));
-        mesas.add(new Mesa("05"));
-        mesas.add(new Mesa("06"));
-        mesas.add(new Mesa("07"));
+    public void cargarBaseDatos() throws SQLException{
+        mesaDao.guardar(new Mesa("01"));
+        mesaDao.guardar(new Mesa("02"));
+        mesaDao.guardar(new Mesa("03"));
+        mesaDao.guardar(new Mesa("04"));
+        mesaDao.guardar(new Mesa("05"));
+        mesaDao.guardar(new Mesa("06"));
+        mesaDao.guardar(new Mesa("07"));
 
         sopas.add(new OpcionSopa("Pasta"));
         sopas.add(new OpcionSopa("Sancocho"));
@@ -83,8 +89,8 @@ public class RestauranteControlador {
         jugos.add(new OpcionJugo("Lulo"));
     }
 
-    public List<Mesa> getMesas() {
-        return mesas;
+    public List<Mesa> getMesas() throws SQLException {
+        return mesaDao.listar();
     }
 
     public List<OpcionSopa> getSopas() {
@@ -107,16 +113,15 @@ public class RestauranteControlador {
         return jugos;
     }
     
-    public void crearMesa(){
+    public void crearMesa() throws SQLException{
         // Pedir al usuario la información necesaria para crear la mesa
         Mesa mesa = mesaVista.pedirInformacionMesa();
 
         // Almacenar la mesa
-        this.mesas.add(mesa);
+        mesaDao.guardar(mesa);
 
         // Listar las mesas que se encuentran en el sistema
-        mesaVista.mostrarMesas(mesas);
-
+        mesaVista.mostrarMesas(getMesas());
     }
 
     public void agregarPedido(Mesa mesa){
@@ -128,7 +133,7 @@ public class RestauranteControlador {
         pedidoVista.mostrarMensaje("Se ha recibido el pedido de " + pedido.getCliente());
     }
 
-    public Mesa consultarMesa() {
+    public Mesa consultarMesa() throws SQLException {
         return mesaVista.consultarMesa();
     }
 
@@ -164,7 +169,7 @@ public class RestauranteControlador {
         }
     }
 
-    public void iniciarAplicacion() {
+    public void iniciarAplicacion() throws SQLException {
         menuPrincipal.iniciarAplicacion();
     }
 }

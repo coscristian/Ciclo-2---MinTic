@@ -1,5 +1,6 @@
 package com.cristian.desarrollo.vista;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,7 +31,7 @@ public class MesaVista {
         mesas.forEach(System.out::println);
     }
 
-    public Mesa consultarMesa() {
+    public Mesa consultarMesa() throws SQLException {
         System.out.println(".: CONSULTANDO MESAS :.");
 
         Mesa respuesta = null;
@@ -43,7 +44,7 @@ public class MesaVista {
                 }
         
                 System.out.print("Cual es su opción?: ");
-                var opcion = sc.nextInt(); // EN el buffer queda el \n, cuando se lea algo diferente a cadenas
+                var opcion = sc.nextInt(); // En el buffer queda el \n, cuando se lea algo diferente a cadenas
                 if (opcion >= 1 && opcion <= mesas.size()){
                     respuesta = mesas.get(opcion - 1);
                 }else{
@@ -57,7 +58,6 @@ public class MesaVista {
             }
 
         } while (respuesta == null);
-
         return respuesta;
     }
 
