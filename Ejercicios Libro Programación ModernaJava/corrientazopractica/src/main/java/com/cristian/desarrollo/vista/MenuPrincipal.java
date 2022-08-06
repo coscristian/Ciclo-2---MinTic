@@ -52,37 +52,43 @@ public class MenuPrincipal {
         var mesa = controlador.consultarMesa();
         var enMenu = true;        
         do {
-            System.out.println(".: GESTIÓN PEDIDOS :.");
-            System.out.println("1 -> Ver pedidos de Mesa");
-            System.out.println("2 -> Agregar Pedido");
-            System.out.println("3 -> Agregar Adicional a Pedido");
-            System.out.println("4 -> Entregar Pedido");
-            System.out.println("0 -> Salir al Menu Principal");
-            System.out.print("¿Cúal es su opción?: ");    
-            // Voy aqui creando el menu de gestion de pedidos
-            // falta hacerle la deteccion de errores con el try catch
-            var opcion = sc.nextInt();
-            sc.nextLine();
+            try {
+                System.out.println(".: GESTIÓN PEDIDOS :.");
+                System.out.println("1 -> Ver pedidos de Mesa");
+                System.out.println("2 -> Agregar Pedido");
+                System.out.println("3 -> Agregar Adicional a Pedido");
+                System.out.println("4 -> Entregar Pedido");
+                System.out.println("0 -> Salir al Menu Principal");
+                System.out.print("¿Cúal es su opción?: ");    
 
-            switch (opcion) {
-                case 0:
-                    System.out.println("Saliendo al Menu Principal");
-                    enMenu = false;
-                    break;
-                case 1:
-                    controlador.mostrarPedidos(mesa);
-                    break;
-                case 2:
-                    
-                    break;
-                case 3:
-                    
-                    break;
-                case 4:
-                    
-                    break;
-                default:
-                    break;
+                var opcion = sc.nextInt();
+                sc.nextLine();
+    
+                switch (opcion) {
+                    case 0:
+                        System.out.println("Saliendo al Menu Principal");
+                        enMenu = false;
+                        break;
+                    case 1:
+                        controlador.mostrarPedidos(mesa);
+                        enMenu = false;
+                        break;
+                    case 2:
+                        controlador.agregarPedido(mesa);
+                        enMenu = false;
+                        break;
+                    case 3:
+                        controlador.agregarAdicional(mesa);
+                        break;
+                    case 4:
+                        
+                        break;
+                    default:
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("ERROR, INTENTE DE NUEVO");
+                e.printStackTrace();
             }
         } while (enMenu);
     }

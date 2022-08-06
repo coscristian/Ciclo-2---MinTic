@@ -7,7 +7,7 @@ import com.cristian.desarrollo.modelo.*;
 
 public class App {
     public static void main( String[] args ){
-        //prueba();
+        
         try (var sc = new Scanner(System.in)){
             var controlador = new RestauranteControlador(sc);
             controlador.cargarBaseDatos();
@@ -16,7 +16,6 @@ public class App {
             System.err.println("OCURRIÓ UN ERROR EN LA APLICACIÓN");
             System.err.println("\t" + e.getMessage());
         }
-
     }
 
     private static void prueba() {
@@ -47,6 +46,8 @@ public class App {
         // Asignación de pedidos a las mesas
         mesa1.agregarPedido(cristian);
         mesa1.agregarPedido(juan);
+
+        // Hacer que al crear el pedido se vaya al menu principal
 
         // Realizar entrega de pedidos
         cristian.entregarPedido();

@@ -24,9 +24,11 @@ public class MesaVista {
         do {
             try {
                 System.out.println("Las mesas existentes son:");
-            
-                mesas.forEach(mesa -> System.out.printf("%d. -> Mesa %d", mesa.getNumero(), mesa.getNumero()));
-        
+                            
+                for (int i = 0; i < mesas.size(); i++) {
+                    System.out.printf("%s -> Mesa %s %n", (i+1), mesas.get(i).getNumero());
+                }
+
                 System.out.print("¿Cual es su opción?: ");
                 var opcion = sc.nextInt();
                 sc.nextLine();
@@ -46,8 +48,9 @@ public class MesaVista {
     }
 
     public void mostrarPedidos(Mesa mesa){
-        System.out.printf(".: PEDIDOS DE LA MESA %d :.%n", mesa.getNumero());
-
+        System.out.printf(".: PEDIDOS DE LA MESA %s :.%n", mesa.getNumero());
+        
         mesa.getPedidos().forEach(pedido -> System.out.printf("\tPedido Cliente -> %s %n\t\t%s %n", pedido.getCliente(), pedido.getEstado()));
-    }
+        }
 }
+
