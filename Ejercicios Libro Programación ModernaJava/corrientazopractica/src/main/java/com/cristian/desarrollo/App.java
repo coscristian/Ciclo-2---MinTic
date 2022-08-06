@@ -1,9 +1,25 @@
 package com.cristian.desarrollo;
 
+import java.util.Scanner;
+
+import com.cristian.desarrollo.controlador.RestauranteControlador;
 import com.cristian.desarrollo.modelo.*;
 
 public class App {
     public static void main( String[] args ){
+        //prueba();
+        try (var sc = new Scanner(System.in)){
+            var controlador = new RestauranteControlador(sc);
+            controlador.cargarBaseDatos();
+            controlador.iniciarAplicacion();
+        } catch (Exception e) {
+            System.err.println("OCURRIÓ UN ERROR EN LA APLICACIÓN");
+            System.err.println("\t" + e.getMessage());
+        }
+
+    }
+
+    private static void prueba() {
         // Mesas del resturante
         var mesa1 = new Mesa("1");
         
@@ -45,7 +61,5 @@ public class App {
         mesa1.getPedidos().forEach(p -> System.out.println("\t" + p));
 
         System.out.printf("%n A pagar en la mesa 1: $%,d%n", mesa1.calcularValorMesa());
-        
-
     }
 }
