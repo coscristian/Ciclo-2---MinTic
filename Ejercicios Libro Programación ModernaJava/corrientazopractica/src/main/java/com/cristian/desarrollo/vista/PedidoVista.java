@@ -40,7 +40,7 @@ public class PedidoVista {
                          idMesa);
     }
 
-    private OpcionEnsalada elegirEnsalada() {
+    private OpcionEnsalada elegirEnsalada() throws SQLException {
         var ensaladas = controlador.getEnsaladas();
         OpcionEnsalada respuesta = null;
 
@@ -66,7 +66,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionJugo elegirJugo() {
+    private OpcionJugo elegirJugo() throws SQLException {
         var jugos = controlador.getJugos();
         OpcionJugo respuesta = null;
 

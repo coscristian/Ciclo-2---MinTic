@@ -2,7 +2,7 @@ package com.cristian.desarrollo.modelo;
 
 public class OpcionJugo {
     private String nombre;
-    private Integer idJugo;
+    private Integer id;
     
     public OpcionJugo(String nombre){
         this.nombre = nombre;
@@ -16,11 +16,11 @@ public class OpcionJugo {
         this.nombre = nombre;
     }
 
-    public Integer getIdJugo() {
-        return idJugo;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdJugo(Integer idJugo) {
-        this.idJugo = idJugo;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

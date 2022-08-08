@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 import com.cristian.desarrollo.dao.MesaDao;
 import com.cristian.desarrollo.dao.OpcionCarneDao;
+import com.cristian.desarrollo.dao.OpcionEnsaladaDao;
+import com.cristian.desarrollo.dao.OpcionJugoDao;
 import com.cristian.desarrollo.dao.OpcionPrincipioDao;
 import com.cristian.desarrollo.dao.OpcionSopaDao;
 import com.cristian.desarrollo.dao.PedidoDao;
@@ -27,13 +29,15 @@ public class RestauranteControlador {
     private MenuPrincipal menuPrincipal;
     private MesaVista mesaVista;
     private PedidoVista pedidoVista;
+
     private MesaDao mesaDao;
     private PedidoDao pedidoDao;
     private OpcionSopaDao sopaDao;
     private OpcionPrincipioDao principioDao;
     private OpcionCarneDao carneDao;
-
-
+    private OpcionEnsaladaDao ensaladaDao;
+    private OpcionJugoDao jugoDao;
+    
     private List<OpcionSopa> sopas;
     private List<OpcionPrincipio> principios;
     private List<OpcionCarne> carnes;
@@ -54,6 +58,8 @@ public class RestauranteControlador {
         this.sopaDao = new OpcionSopaDao();
         this.principioDao = new OpcionPrincipioDao();
         this.carneDao = new OpcionCarneDao();
+        this.ensaladaDao = new OpcionEnsaladaDao();
+        this.jugoDao = new OpcionJugoDao();
 
         // Listas alimentos corrientazo
         this.sopas = new ArrayList<>();
@@ -68,8 +74,11 @@ public class RestauranteControlador {
     }
 
     public void mostrarPedidos(Mesa mesa) throws SQLException {
-        //pedidoDao.listar(mesa);
-        //mesaVista.mostrarPedidos(mesa);
+        mesaVista.mostrarPedidos(mesa);
+    }
+
+    public List<Pedido> getPedidos(Mesa mesa) throws SQLException{
+        return pedidoDao.listar(mesa);
     }
 
     public List<Mesa> getMesas() throws SQLException {
@@ -100,16 +109,16 @@ public class RestauranteControlador {
         this.carnes = carnes;
     }
 
-    public List<OpcionEnsalada> getEnsaladas() {
-        return ensaladas;
+    public List<OpcionEnsalada> getEnsaladas() throws SQLException {
+        return ensaladaDao.listar();
     }
 
     public void setEnsaladas(List<OpcionEnsalada> ensaladas) {
         this.ensaladas = ensaladas;
     }
 
-    public List<OpcionJugo> getJugos() {
-        return jugos;
+    public List<OpcionJugo> getJugos() throws SQLException {
+        return jugoDao.listar();
     }
 
     public void setJugos(List<OpcionJugo> jugos) {
@@ -144,16 +153,16 @@ public class RestauranteControlador {
         this.carneDao.guardar(new OpcionCarne("Carne molida"));
         this.carneDao.guardar(new OpcionCarne("En Bistec")); */
 
-        ensaladas.add(new OpcionEnsalada("Solo tomate"));
-        ensaladas.add(new OpcionEnsalada("Tomate y Cebolla"));
-        ensaladas.add(new OpcionEnsalada("Dulce"));
-        ensaladas.add(new OpcionEnsalada("Remolacha y Zahahoria"));
+/*         this.ensaladaDao.guardar(new OpcionEnsalada("Solo tomate"));
+        this.ensaladaDao.guardar(new OpcionEnsalada("Tomate y Cebolla"));
+        this.ensaladaDao.guardar(new OpcionEnsalada("Dulce"));
+        this.ensaladaDao.guardar(new OpcionEnsalada("Remolacha y Zahahoria")); */
 
-        jugos.add(new OpcionJugo("Limonada"));
-        jugos.add(new OpcionJugo("Guayaba"));
-        jugos.add(new OpcionJugo("Mora"));
-        jugos.add(new OpcionJugo("Maracuya"));
-        jugos.add(new OpcionJugo("Lulo"));
+/*         this.jugoDao.guardar(new OpcionJugo("Limonada"));
+        this.jugoDao.guardar(new OpcionJugo("Guayaba"));
+        this.jugoDao.guardar(new OpcionJugo("Mora"));
+        this.jugoDao.guardar(new OpcionJugo("Maracuya"));
+        this.jugoDao.guardar(new OpcionJugo("Lulo")); */
 
 /*         var almuerzo1 = new Corrientazo(12_000,
                         new OpcionSopa("Queso"),
@@ -191,7 +200,7 @@ public class RestauranteControlador {
         Pedido pedido = pedidoVista.pedirInformacionPedido(mesa.getId());
 
         // Agregar el pedido a la BBDD
-        //this.pedidoDao.agregar(pedido);
+        this.pedidoDao.agregar(pedido);
 
         //Agregar el pedido a la mesa
         mesa.agregarPedido(pedido);

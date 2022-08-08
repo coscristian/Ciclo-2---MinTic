@@ -1,10 +1,12 @@
 package com.cristian.desarrollo.vista;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
 import com.cristian.desarrollo.modelo.Mesa;
+import com.cristian.desarrollo.modelo.Pedido;
 
 public class MesaVista {
 
@@ -48,10 +50,11 @@ public class MesaVista {
         return respuesta;
     }
 
-    public void mostrarPedidos(Mesa mesa){
+    public void mostrarPedidos(Mesa mesa) throws SQLException{
         System.out.printf(".: PEDIDOS DE LA MESA %s :.%n", mesa.getNumero());
+        List<Pedido> pedidos = controlador.getPedidos(mesa);
         
-        mesa.getPedidos().forEach(pedido -> System.out.printf("\tPedido Cliente -> %s %n\t\t%s %n", pedido.getCliente(), pedido.getEstado()));
+        pedidos.forEach(pedido -> System.out.printf("\tPedido Cliente -> %s %n\t\t%s %n", pedido.getCliente(), pedido.getEstado()));
         }
 }
 

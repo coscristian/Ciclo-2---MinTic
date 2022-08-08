@@ -2,7 +2,7 @@ package com.cristian.desarrollo.modelo;
 
 public class OpcionEnsalada {
     private String nombre;
-    private Integer idEnsalada;
+    private Integer id;
 
     public OpcionEnsalada(String nombre){
         this.nombre = nombre;
@@ -16,11 +16,11 @@ public class OpcionEnsalada {
         this.nombre = nombre;
     }
 
-    public Integer getIdEnsalada() {
-        return idEnsalada;
+    public Integer getId() {
+        return id;
     }
 
-    public void setIdEnsalada(Integer idEnsalada) {
-        this.idEnsalada = idEnsalada;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

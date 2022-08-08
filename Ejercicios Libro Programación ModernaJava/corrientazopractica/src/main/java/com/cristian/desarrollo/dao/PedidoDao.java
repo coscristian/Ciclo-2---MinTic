@@ -9,39 +9,136 @@ import java.util.List;
 
 import com.cristian.desarrollo.modelo.Corrientazo;
 import com.cristian.desarrollo.modelo.Mesa;
+import com.cristian.desarrollo.modelo.OpcionCarne;
+import com.cristian.desarrollo.modelo.OpcionEnsalada;
+import com.cristian.desarrollo.modelo.OpcionJugo;
+import com.cristian.desarrollo.modelo.OpcionPrincipio;
 import com.cristian.desarrollo.modelo.OpcionSopa;
 import com.cristian.desarrollo.modelo.Pedido;
 import com.cristian.desarrollo.util.JDBCUtilities;
 
 public class PedidoDao {
 
-/*     public List<Pedido> listar(Mesa mesa) throws SQLException{
+
+    private List<OpcionSopa> obtenerNombreSopa(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionSopa> sopas) throws SQLException{
+
+        String sqlSopa = String.format(
+            "INNER JOIN opcionsopa os ON c.id_pedido = os.id " +
+            "WHERE id_mesa = %d", idMesa);
+
+        pstmt = connection.prepareStatement(sql + sqlSopa);
+        rset = pstmt.executeQuery();
+
+        while(rset.next()){
+            sopas.add(new OpcionSopa(rset.getString("nombre")));
+        }
+        return sopas;
+    }
+
+    private List<OpcionPrincipio> obtenerNombrePrincipio(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionPrincipio> principios) throws SQLException{
+    
+        String sqlPrincipio = String.format(
+            "INNER JOIN opcionprincipio op ON c.id_pedido = op.id " +
+            "WHERE id_mesa = %d", idMesa);
+
+        pstmt = connection.prepareStatement(sql + sqlPrincipio);
+        rset = pstmt.executeQuery();
+
+        while (rset.next()){
+            principios.add(new OpcionPrincipio(rset.getString("nombre")));
+        }
+        return principios;
+    }
+
+    private List<OpcionCarne> obtenerNombreCarne(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionCarne> carnes) throws SQLException{
+        
+        String sqlCarne = String.format(
+            "INNER JOIN opcioncarne oc ON c.id_pedido = oc.id " +
+            "WHERE id_mesa = %d", idMesa);
+
+        pstmt = connection.prepareStatement(sql + sqlCarne);
+        rset = pstmt.executeQuery();
+
+        while (rset.next()){
+            carnes.add(new OpcionCarne(rset.getString("nombre")));
+        }
+        return carnes;
+    }
+
+    private List<OpcionEnsalada> obtenerNombreEnsalada(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionEnsalada> ensaladas) throws SQLException{
+        
+        String sqlEnsalada = String.format(
+            "INNER JOIN opcionensalada oe ON c.id_pedido = oe.id " +
+            "WHERE id_mesa = %d", idMesa);
+
+        pstmt = connection.prepareStatement(sql + sqlEnsalada);
+        rset = pstmt.executeQuery();
+
+        while (rset.next()){
+            ensaladas.add(new OpcionEnsalada(rset.getString("nombre")));
+        }
+        return ensaladas;
+    }
+
+    private List<OpcionJugo> obtenerNombreJugo(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionJugo> jugos) throws SQLException{
+        
+        String sqlJugo = String.format(
+            "INNER JOIN opcionJugo oj ON c.id_pedido = oj.id " +
+            "WHERE id_mesa = %d", idMesa);
+
+        pstmt = connection.prepareStatement(sql + sqlJugo);
+        rset = pstmt.executeQuery();
+
+        while (rset.next()){
+            jugos.add(new OpcionJugo(rset.getString("nombre")));
+        }
+        return jugos;
+    }
+
+    public List<Pedido> listar(Mesa mesa) throws SQLException{
 
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet rset = null;
         List<Pedido> pedidos = null;
-        
+        List<OpcionSopa> sopas = null;
+        List<OpcionPrincipio> principios = null;
+        List<OpcionCarne> carnes = null;
+        List<OpcionEnsalada> ensaladas = null;
+        List<OpcionJugo> jugos = null;
+        Integer idMesa = mesa.getId();
         try {
+            sopas = new ArrayList<>();
+            principios = new ArrayList<>();
+            carnes = new ArrayList<>();
+            ensaladas = new ArrayList<>();
+            jugos = new ArrayList<>();
             // Conexión
             connection = JDBCUtilities.getConnection();
-            // Crear sentencia preparada
-            String sql = "SELECT * FROM MESA";
+            String sql = String.format(
+                "SELECT nombre FROM pedido " + 
+                "INNER JOIN corrientazo c ON pedido.id = c.id_pedido ");
+    
+            sopas = obtenerNombreSopa(connection, rset, pstmt, sql, idMesa, sopas);
+            principios = obtenerNombrePrincipio(connection, rset, pstmt, sql, idMesa, principios);
+            carnes = obtenerNombreCarne(connection, rset, pstmt, sql, idMesa, carnes);
+            ensaladas = obtenerNombreEnsalada(connection, rset, pstmt, sql, idMesa, ensaladas);
+            jugos = obtenerNombreJugo(connection, rset, pstmt, sql, idMesa, jugos);
+
+            sql = "SELECT cliente, estado FROM PEDIDO";
             pstmt = connection.prepareStatement(sql);
-            // Ejecutar sentencia preparada
             rset = pstmt.executeQuery();
-            
+
             pedidos = new ArrayList<>();
+            Integer contador = 0;
+            // Error por aquí: Falta agregar el corrientazo a la BBDD para que pueda traer los nombres
             while(rset.next()){
-                var sopa = new OpcionSopa(rset.get("sopa"))
-                var almuerzo = new Corrientazo(rset.getInt("precio"), sopa, principio, carne, ensalada, jugo)
-
-
-
-                Mesa pedidos = new Pedido(rset.getString("cliente"),
-                                          new Corrientazo(rset.getInt("precio"), new OpcionSopa(rset.getString("")), principio, carne, ensalada, jugo), idMesa);
-                mesa.setId(rset.getInt("id"));
-                pedidos.add(mesa);
+                Corrientazo almuerzo = new Corrientazo(12_000,
+                                        sopas.get(contador), principios.get(contador), carnes.get(contador),
+                                        ensaladas.get(contador),jugos.get(contador));
+                Pedido pedido = new Pedido(rset.getString("cliente"), almuerzo, idMesa);
+                pedidos.add(pedido);
+                contador++;
             }
         } finally {
             if (connection != null)
@@ -52,7 +149,8 @@ public class PedidoDao {
                 rset.close();
         }
         return pedidos;
-    } */
+    } 
+
     public void agregar(Pedido pedido) throws SQLException{
         Connection connection = null;
         PreparedStatement pstmt = null;
@@ -62,6 +160,7 @@ public class PedidoDao {
             connection = JDBCUtilities.getConnection();
             
             // Crear sentencia preparada
+            // Agregar Pedido
             String sql = "INSERT INTO PEDIDO (id, cliente, estado, id_mesa) VALUES (?, ?, ?, ?)";
             pstmt = connection.prepareStatement(sql);
             
@@ -72,6 +171,11 @@ public class PedidoDao {
 
             // Ejecutar sentencia preparada
             pstmt.executeUpdate();
+
+            // Agregar Corrientazo
+
+
+
         } finally {
             if (connection != null)
                 connection.close();
