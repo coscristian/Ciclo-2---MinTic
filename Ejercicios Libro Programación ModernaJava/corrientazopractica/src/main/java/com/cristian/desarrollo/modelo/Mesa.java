@@ -29,6 +29,7 @@ public class Mesa {
 
     public void agregarPedido(Pedido pedido) {
         this.pedidos.add(pedido);
+        //System.out.println(pedidos.get(0));
     }    
 
     // Operaciones con la mesa

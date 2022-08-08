@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.dao.MesaDao;
+import com.cristian.desarrollo.dao.OpcionCarneDao;
+import com.cristian.desarrollo.dao.OpcionPrincipioDao;
+import com.cristian.desarrollo.dao.OpcionSopaDao;
+import com.cristian.desarrollo.dao.PedidoDao;
+import com.cristian.desarrollo.modelo.Adicional;
+import com.cristian.desarrollo.modelo.Corrientazo;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.OpcionCarne;
 import com.cristian.desarrollo.modelo.OpcionEnsalada;
@@ -22,6 +28,11 @@ public class RestauranteControlador {
     private MesaVista mesaVista;
     private PedidoVista pedidoVista;
     private MesaDao mesaDao;
+    private PedidoDao pedidoDao;
+    private OpcionSopaDao sopaDao;
+    private OpcionPrincipioDao principioDao;
+    private OpcionCarneDao carneDao;
+
 
     private List<OpcionSopa> sopas;
     private List<OpcionPrincipio> principios;
@@ -39,6 +50,10 @@ public class RestauranteControlador {
 
         // Data Access Object
         this.mesaDao = new MesaDao();
+        this.pedidoDao = new PedidoDao();
+        this.sopaDao = new OpcionSopaDao();
+        this.principioDao = new OpcionPrincipioDao();
+        this.carneDao = new OpcionCarneDao();
 
         // Listas alimentos corrientazo
         this.sopas = new ArrayList<>();
@@ -52,32 +67,33 @@ public class RestauranteControlador {
         return mesaVista.consultarMesa();
     }
 
-    public void mostrarPedidos(Mesa mesa) {
-        mesaVista.mostrarPedidos(mesa);
+    public void mostrarPedidos(Mesa mesa) throws SQLException {
+        //pedidoDao.listar(mesa);
+        //mesaVista.mostrarPedidos(mesa);
     }
 
     public List<Mesa> getMesas() throws SQLException {
         return mesaDao.listar();
     }
 
-    public List<OpcionSopa> getSopas() {
-        return sopas;
+    public List<OpcionSopa> getSopas() throws SQLException {
+        return sopaDao.listar();
     }
 
     public void setSopas(List<OpcionSopa> sopas) {
         this.sopas = sopas;
     }
 
-    public List<OpcionPrincipio> getPrincipios() {
-        return principios;
+    public List<OpcionPrincipio> getPrincipios() throws SQLException {
+        return principioDao.listar();
     }
 
     public void setPrincipios(List<OpcionPrincipio> principios) {
         this.principios = principios;
     }
 
-    public List<OpcionCarne> getCarnes() {
-        return carnes;
+    public List<OpcionCarne> getCarnes() throws SQLException {
+        return carneDao.listar();
     }
 
     public void setCarnes(List<OpcionCarne> carnes) {
@@ -109,24 +125,24 @@ public class RestauranteControlador {
         this.mesaDao.guardar(new Mesa("06"));
         this.mesaDao.guardar(new Mesa("07"));  */
 
-        sopas.add(new OpcionSopa("Pasta"));
-        sopas.add(new OpcionSopa("Sancocho"));
-        sopas.add(new OpcionSopa("Crema Ahuyama"));
-        sopas.add(new OpcionSopa("Patacón"));
-        sopas.add(new OpcionSopa("Verduras"));
-        sopas.add(new OpcionSopa("Ajiaco"));
+/*         this.sopaDao.guardar(new OpcionSopa("Pasta"));
+        this.sopaDao.guardar(new OpcionSopa("Sancocho"));
+        this.sopaDao.guardar(new OpcionSopa("Crema Ahuyama"));
+        this.sopaDao.guardar(new OpcionSopa("Patacón"));
+        this.sopaDao.guardar(new OpcionSopa("Verduras"));
+        this.sopaDao.guardar(new OpcionSopa("Ajiaco")); */
 
-        principios.add(new OpcionPrincipio("Frijoles"));
-        principios.add(new OpcionPrincipio("Lentejas"));
-        principios.add(new OpcionPrincipio("Papa guisada"));
-        principios.add(new OpcionPrincipio("Espaguetis"));
+/*         this.principioDao.guardar(new OpcionPrincipio("Frijoles"));
+        this.principioDao.guardar(new OpcionPrincipio("Lentejas"));
+        this.principioDao.guardar(new OpcionPrincipio("Papa guisada"));
+        this.principioDao.guardar(new OpcionPrincipio("Espaguetis")); */
 
-        carnes.add(new OpcionCarne("Res a la plancha"));
-        carnes.add(new OpcionCarne("Cerdo a la plancha"));
-        carnes.add(new OpcionCarne("Pechuga a la plancha"));
-        carnes.add(new OpcionCarne("Chicharrón"));
-        carnes.add(new OpcionCarne("Carne molida"));
-        carnes.add(new OpcionCarne("En Bistec"));
+/*         this.carneDao.guardar(new OpcionCarne("Res a la plancha"));
+        this.carneDao.guardar(new OpcionCarne("Cerdo a la plancha"));
+        this.carneDao.guardar(new OpcionCarne("Pechuga a la plancha"));
+        this.carneDao.guardar(new OpcionCarne("Chicharrón"));
+        this.carneDao.guardar(new OpcionCarne("Carne molida"));
+        this.carneDao.guardar(new OpcionCarne("En Bistec")); */
 
         ensaladas.add(new OpcionEnsalada("Solo tomate"));
         ensaladas.add(new OpcionEnsalada("Tomate y Cebolla"));
@@ -153,24 +169,29 @@ public class RestauranteControlador {
                         new OpcionEnsalada("Remolacha"),
                         new OpcionJugo("Maracuyá"));
 
-        Pedido cristian = new Pedido("Cristian", almuerzo1); 
-        Pedido juan = new Pedido("Juan", almuerzo2); 
+        Pedido cristian = new Pedido("Cristian", almuerzo1, 1); 
+        Pedido juan = new Pedido("Juan", almuerzo2, 1); 
         
-        cristian.agregarAdicional(new Adicional("Ajiaco", 2_000));
+        pedidoDao.agregar(cristian);
+        pedidoDao.agregar(juan); */
+        //cristian.agregarAdicional(new Adicional("Ajiaco", 2_000));
 
-        mesas.get(0).agregarPedido(cristian);     
-        mesas.get(0).agregarPedido(juan);  
+/*         mesas.get(0).agregarPedido(cristian);     
+        mesas.get(0).agregarPedido(juan);  */ 
         
-        cristian.entregarPedido(); */
+        //cristian.entregarPedido(); 
     }
 
     public void iniciarAplicacion() throws SQLException {
         menuPrincipal.iniciarAplicacion();
     }
 
-    public void agregarPedido(Mesa mesa) {
+    public void agregarPedido(Mesa mesa) throws SQLException {
         // Pedir informacion del pedido
-        Pedido pedido = pedidoVista.pedirInformacionPedido();
+        Pedido pedido = pedidoVista.pedirInformacionPedido(mesa.getId());
+
+        // Agregar el pedido a la BBDD
+        //this.pedidoDao.agregar(pedido);
 
         //Agregar el pedido a la mesa
         mesa.agregarPedido(pedido);

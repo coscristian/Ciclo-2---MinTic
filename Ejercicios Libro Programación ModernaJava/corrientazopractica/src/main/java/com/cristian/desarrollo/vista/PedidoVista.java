@@ -1,5 +1,6 @@
 package com.cristian.desarrollo.vista;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
@@ -22,7 +23,7 @@ public class PedidoVista {
         
     }
 
-    public Pedido pedirInformacionPedido() {
+    public Pedido pedirInformacionPedido(Integer idMesa) throws SQLException {
         System.out.println(".: AGREGANDO PEDIDO :.");
         
         System.out.printf("Ingrese el nombre del cliente: ");
@@ -35,7 +36,8 @@ public class PedidoVista {
         OpcionJugo jugo = elegirJugo();
         
         return new Pedido(cliente,
-                         new Corrientazo(12_000, sopa, principio, carne, ensalada, jugo));
+                         new Corrientazo(12_000, sopa, principio, carne, ensalada, jugo),
+                         idMesa);
     }
 
     private OpcionEnsalada elegirEnsalada() {
@@ -90,7 +92,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionPrincipio elegirPrincipio() {
+    private OpcionPrincipio elegirPrincipio() throws SQLException {
         var principios = controlador.getPrincipios();
         OpcionPrincipio respuesta = null;
 
@@ -116,7 +118,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionCarne elegirCarne() {
+    private OpcionCarne elegirCarne() throws SQLException {
         var carnes = controlador.getCarnes();
         OpcionCarne respuesta = null;
 
@@ -142,7 +144,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionSopa elegirSopa() {
+    private OpcionSopa elegirSopa() throws SQLException {
         var sopas = controlador.getSopas();
         OpcionSopa respuesta = null;
 
@@ -171,7 +173,4 @@ public class PedidoVista {
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
     }
-
-
-    
 }

@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
+    private Integer idMesa;
     private String cliente;
     private Corrientazo almuerzo;
     private List<Adicional> adicionales;
     private EstadoPedido estado;
 
-    public Pedido(String cliente, Corrientazo almuerzo){
+    public Pedido(String cliente, Corrientazo almuerzo, Integer idMesa){
         this.cliente = cliente;
         this.almuerzo = almuerzo;
-
+        this.idMesa = idMesa;
+        
         // Estado inicial del pedido al ser creado
         this.estado = EstadoPedido.SIN_ENTREGAR;
         this.adicionales = new ArrayList<>();
@@ -41,7 +43,15 @@ public class Pedido {
     public void setAlmuerzo(Corrientazo almuerzo) {
         this.almuerzo = almuerzo;
     }
-   
+
+    public Integer getIdMesa() {
+        return idMesa;
+    }
+
+    public void setIdMesa(Integer idMesa) {
+        this.idMesa = idMesa;
+    }
+
     public List<Adicional> getAdicionales() {
         return adicionales;
     }

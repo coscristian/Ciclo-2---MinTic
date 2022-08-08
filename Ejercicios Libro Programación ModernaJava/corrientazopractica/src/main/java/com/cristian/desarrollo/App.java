@@ -39,7 +39,7 @@ public class App {
              new OpcionJugo("Maracuyá"));
         
         // Creación de pedidos
-        var cristian = new Pedido("Cristian", almuerzo1);
+/*         var cristian = new Pedido("Cristian", almuerzo1);
         var juan = new Pedido("Juan", almuerzo2);
 
         cristian.agregarAdicional(new Adicional("Ajiaco", 2_000));
@@ -62,6 +62,6 @@ public class App {
         System.out.printf("%n Mesa 1 %n");
         mesa1.getPedidos().forEach(p -> System.out.println("\t" + p));
 
-        System.out.printf("%n A pagar en la mesa 1: $%,d%n", mesa1.calcularValorMesa());
+        System.out.printf("%n A pagar en la mesa 1: $%,d%n", mesa1.calcularValorMesa()); */
     }
 }
