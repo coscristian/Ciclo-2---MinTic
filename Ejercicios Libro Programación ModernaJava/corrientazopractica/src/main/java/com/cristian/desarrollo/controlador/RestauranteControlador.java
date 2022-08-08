@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.cristian.desarrollo.dao.CorrientazoDao;
 import com.cristian.desarrollo.dao.MesaDao;
 import com.cristian.desarrollo.dao.OpcionCarneDao;
 import com.cristian.desarrollo.dao.OpcionEnsaladaDao;
@@ -12,8 +13,6 @@ import com.cristian.desarrollo.dao.OpcionJugoDao;
 import com.cristian.desarrollo.dao.OpcionPrincipioDao;
 import com.cristian.desarrollo.dao.OpcionSopaDao;
 import com.cristian.desarrollo.dao.PedidoDao;
-import com.cristian.desarrollo.modelo.Adicional;
-import com.cristian.desarrollo.modelo.Corrientazo;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.OpcionCarne;
 import com.cristian.desarrollo.modelo.OpcionEnsalada;
@@ -37,7 +36,8 @@ public class RestauranteControlador {
     private OpcionCarneDao carneDao;
     private OpcionEnsaladaDao ensaladaDao;
     private OpcionJugoDao jugoDao;
-    
+    private CorrientazoDao corrientazoDao;
+
     private List<OpcionSopa> sopas;
     private List<OpcionPrincipio> principios;
     private List<OpcionCarne> carnes;
@@ -60,6 +60,7 @@ public class RestauranteControlador {
         this.carneDao = new OpcionCarneDao();
         this.ensaladaDao = new OpcionEnsaladaDao();
         this.jugoDao = new OpcionJugoDao();
+        this.corrientazoDao = new CorrientazoDao();
 
         // Listas alimentos corrientazo
         this.sopas = new ArrayList<>();
@@ -198,9 +199,12 @@ public class RestauranteControlador {
     public void agregarPedido(Mesa mesa) throws SQLException {
         // Pedir informacion del pedido
         Pedido pedido = pedidoVista.pedirInformacionPedido(mesa.getId());
-
+        
         // Agregar el pedido a la BBDD
         this.pedidoDao.agregar(pedido);
+
+        // Guardar el corrientazo del pedido en BBDD
+        this.corrientazoDao.guardar(pedido.getAlmuerzo());
 
         //Agregar el pedido a la mesa
         mesa.agregarPedido(pedido);

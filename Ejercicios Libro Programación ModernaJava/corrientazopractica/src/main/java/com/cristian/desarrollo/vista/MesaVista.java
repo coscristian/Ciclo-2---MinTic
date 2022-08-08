@@ -53,8 +53,21 @@ public class MesaVista {
     public void mostrarPedidos(Mesa mesa) throws SQLException{
         System.out.printf(".: PEDIDOS DE LA MESA %s :.%n", mesa.getNumero());
         List<Pedido> pedidos = controlador.getPedidos(mesa);
-        
-        pedidos.forEach(pedido -> System.out.printf("\tPedido Cliente -> %s %n\t\t%s %n", pedido.getCliente(), pedido.getEstado()));
+                
+        for (Pedido pedido : pedidos) {
+            System.out.println("\t----------------");
+            System.out.printf("\tPedido Cliente -> %s %n", pedido.getCliente());
+            System.out.printf("\tEstado -> %s %n", pedido.getEstado());
+            System.out.println("\t\t----------------");
+            System.out.printf("\t\t.: ALimentos :. %n");
+            System.out.println("\t\t----------------");
+            System.out.printf("\t\tSopa -> %s %n", pedido.getAlmuerzo().getSopa().getNombre());
+            System.out.printf("\t\tPrincipio -> %s %n", pedido.getAlmuerzo().getPrincipio().getNombre());
+            System.out.printf("\t\tCarne -> %s %n", pedido.getAlmuerzo().getCarne().getNombre());
+            System.out.printf("\t\tEnsalada -> %s %n", pedido.getAlmuerzo().getEnsalada().getNombre());
+            System.out.printf("\t\tJugo -> %s %n", pedido.getAlmuerzo().getJugo().getNombre());
+            System.out.println("\t----------------");
         }
+    }
 }
 
