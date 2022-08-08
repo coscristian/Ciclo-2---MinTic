@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Mesa {
     private String numero;
+    private Integer id;
     private List<Pedido> pedidos;
 
     public Mesa(String numero) {
@@ -31,6 +32,14 @@ public class Mesa {
     }    
 
     // Operaciones con la mesa
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer calcularValorMesa(){
 

@@ -1,11 +1,11 @@
 package com.cristian.desarrollo.controlador;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.cristian.desarrollo.modelo.Adicional;
-import com.cristian.desarrollo.modelo.Corrientazo;
+import com.cristian.desarrollo.dao.MesaDao;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.OpcionCarne;
 import com.cristian.desarrollo.modelo.OpcionEnsalada;
@@ -21,7 +21,7 @@ public class RestauranteControlador {
     private MenuPrincipal menuPrincipal;
     private MesaVista mesaVista;
     private PedidoVista pedidoVista;
-    private List<Mesa> mesas;
+    private MesaDao mesaDao;
 
     private List<OpcionSopa> sopas;
     private List<OpcionPrincipio> principios;
@@ -31,14 +31,16 @@ public class RestauranteControlador {
     private Scanner sc;
 
     public RestauranteControlador(Scanner sc) {
+        // Vistas
         this.menuPrincipal = new MenuPrincipal(sc, this);
-        this.sc = sc;
-
         this.mesaVista = new MesaVista(this, sc);
         this.pedidoVista = new PedidoVista(this, sc);
+        this.sc = sc;
 
-        this.mesas = new ArrayList<>();
+        // Data Access Object
+        this.mesaDao = new MesaDao();
 
+        // Listas alimentos corrientazo
         this.sopas = new ArrayList<>();
         this.principios = new ArrayList<>();
         this.carnes = new ArrayList<>();
@@ -46,8 +48,7 @@ public class RestauranteControlador {
         this.jugos = new ArrayList<>();
     }
 
-    public Mesa consultarMesa() {
-    
+    public Mesa consultarMesa() throws SQLException {
         return mesaVista.consultarMesa();
     }
 
@@ -55,8 +56,8 @@ public class RestauranteControlador {
         mesaVista.mostrarPedidos(mesa);
     }
 
-    public List<Mesa> getMesas() {
-        return mesas;
+    public List<Mesa> getMesas() throws SQLException {
+        return mesaDao.listar();
     }
 
     public List<OpcionSopa> getSopas() {
@@ -99,14 +100,14 @@ public class RestauranteControlador {
         this.jugos = jugos;
     }
 
-    public void cargarBaseDatos() {
-        this.mesas.add(new Mesa("01"));
-        this.mesas.add(new Mesa("02"));
-        this.mesas.add(new Mesa("03"));
-        this.mesas.add(new Mesa("04"));
-        this.mesas.add(new Mesa("05"));
-        this.mesas.add(new Mesa("06"));
-        this.mesas.add(new Mesa("07"));
+    public void cargarBaseDatos() throws SQLException {
+/*         this.mesaDao.guardar(new Mesa("01"));
+        this.mesaDao.guardar(new Mesa("02"));
+        this.mesaDao.guardar(new Mesa("03"));
+        this.mesaDao.guardar(new Mesa("04"));
+        this.mesaDao.guardar(new Mesa("05"));
+        this.mesaDao.guardar(new Mesa("06"));
+        this.mesaDao.guardar(new Mesa("07"));  */
 
         sopas.add(new OpcionSopa("Pasta"));
         sopas.add(new OpcionSopa("Sancocho"));
@@ -163,7 +164,7 @@ public class RestauranteControlador {
         cristian.entregarPedido(); */
     }
 
-    public void iniciarAplicacion() {
+    public void iniciarAplicacion() throws SQLException {
         menuPrincipal.iniciarAplicacion();
     }
 

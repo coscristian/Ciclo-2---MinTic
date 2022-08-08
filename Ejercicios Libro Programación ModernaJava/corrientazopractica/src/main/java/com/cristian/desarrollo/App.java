@@ -15,6 +15,7 @@ public class App {
         } catch (Exception e) {
             System.err.println("OCURRIÓ UN ERROR EN LA APLICACIÓN");
             System.err.println("\t" + e.getMessage());
+            System.out.println(e.getStackTrace()[0]);
         }
     }
 

@@ -1,0 +1,30 @@
+{
+	"folders": {},
+	"connections": {
+		"sqlite_jdbc-1827ae3246b-4d5343c61ec7ec0b": {
+			"provider": "sqlite",
+			"driver": "sqlite_jdbc",
+			"name": "corrientazo.db",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"database": "/run/user/1000/doc/8b9ec2bc/corrientazo.db",
+				"url": "jdbc:sqlite:/run/user/1000/doc/8b9ec2bc/corrientazo.db",
+				"type": "dev",
+				"auth-model": "native",
+				"handlers": {}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}

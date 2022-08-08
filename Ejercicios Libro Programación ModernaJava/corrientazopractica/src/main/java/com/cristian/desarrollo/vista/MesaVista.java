@@ -1,5 +1,6 @@
 package com.cristian.desarrollo.vista;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
@@ -15,9 +16,9 @@ public class MesaVista {
         this.sc = sc;
     }
 
-    public Mesa consultarMesa() {
+    public Mesa consultarMesa() throws SQLException {
         System.out.println(".: CONSULTANDO MESAS :.");
-
+        
         Mesa respuesta = null;
         var mesas = controlador.getMesas();
         

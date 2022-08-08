@@ -1,5 +1,6 @@
 package com.cristian.desarrollo.vista;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
@@ -13,7 +14,7 @@ public class MenuPrincipal {
         this.controlador = controlador;
     }
 
-    public void iniciarAplicacion(){
+    public void iniciarAplicacion() throws SQLException{
         var enMenu = true;
         do {
             System.out.println(".: MENU PRINCIPAL :.");
@@ -48,7 +49,7 @@ public class MenuPrincipal {
         } while (enMenu);
     }
 
-    private void abrirMenuGestionPedidos() {
+    private void abrirMenuGestionPedidos() throws SQLException {
         var mesa = controlador.consultarMesa();
         var enMenu = true;        
         do {

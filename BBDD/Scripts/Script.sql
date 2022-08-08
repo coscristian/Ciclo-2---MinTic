@@ -67,5 +67,3 @@ CREATE TABLE OpcionJugo(
     id INTEGER PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
-
-INSERT INTO MESA (id, numero) VALUES ('1', 1);
