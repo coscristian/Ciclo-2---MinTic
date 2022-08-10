@@ -20,7 +20,6 @@ public class PedidoVista {
     public PedidoVista(RestauranteControlador controlador, Scanner sc){
         this.controlador = controlador;
         this.sc = sc;
-        
     }
 
     public Pedido pedirInformacionPedido(Integer idMesa) throws SQLException {
@@ -47,13 +46,16 @@ public class PedidoVista {
         do {
             try {
                 System.out.println("ELIJA ENSALADA:");
+                System.out.printf("\t0 -> Sin Ensalada %n");
                 for (int i = 0; i < ensaladas.size(); i++) {
                     System.out.printf("\t%d -> %s %n", (i+1), ensaladas.get(i).getNombre());
                 }
                 System.out.print("\t¿Qué desea elegir?: ");
                 var opcion = sc.nextInt();
-                
-                if(opcion >= 1 && opcion <= ensaladas.size()){
+
+                if (opcion == 0){
+                    break;
+                }else if(opcion >= 1 && opcion <= ensaladas.size()){
                     respuesta = ensaladas.get(opcion -1);
                 }else{
                     System.out.println("Opcion Incorrecta Intente de nuevo!!");

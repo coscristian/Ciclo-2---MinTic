@@ -64,7 +64,10 @@ public class MesaVista {
             System.out.printf("\t\tSopa -> %s %n", pedido.getAlmuerzo().getSopa().getNombre());
             System.out.printf("\t\tPrincipio -> %s %n", pedido.getAlmuerzo().getPrincipio().getNombre());
             System.out.printf("\t\tCarne -> %s %n", pedido.getAlmuerzo().getCarne().getNombre());
-            System.out.printf("\t\tEnsalada -> %s %n", pedido.getAlmuerzo().getEnsalada().getNombre());
+            String ensalada = null;
+            if (pedido.getAlmuerzo().getEnsalada() != null)
+                ensalada = pedido.getAlmuerzo().getEnsalada().getNombre();
+            System.out.printf("\t\tEnsalada -> %s %n", ensalada);
             System.out.printf("\t\tJugo -> %s %n", pedido.getAlmuerzo().getJugo().getNombre());
             System.out.println("\t----------------");
         }

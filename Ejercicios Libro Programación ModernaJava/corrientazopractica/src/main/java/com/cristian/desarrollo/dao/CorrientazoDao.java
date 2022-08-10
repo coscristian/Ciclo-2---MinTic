@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import com.cristian.desarrollo.modelo.Corrientazo;
 import com.cristian.desarrollo.util.JDBCUtilities;
@@ -28,7 +29,10 @@ public class CorrientazoDao {
             pstmt.setInt(3, almuerzo.getSopa().getId());
             pstmt.setInt(4, almuerzo.getPrincipio().getId());
             pstmt.setInt(5, almuerzo.getCarne().getId());
-            pstmt.setInt(6, almuerzo.getEnsalada().getId());
+            if (almuerzo.getEnsalada() != null)
+                pstmt.setInt(6, almuerzo.getEnsalada().getId());
+            else
+                pstmt.setNull(6, Types.INTEGER);
             pstmt.setInt(7, almuerzo.getJugo().getId());
 
             // Ejecutar sentencia preparada

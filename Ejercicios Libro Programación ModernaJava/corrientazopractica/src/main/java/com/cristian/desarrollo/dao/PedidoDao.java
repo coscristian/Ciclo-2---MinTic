@@ -19,138 +19,62 @@ import com.cristian.desarrollo.util.JDBCUtilities;
 
 public class PedidoDao {
 
-
-    private List<OpcionSopa> obtenerNombreSopa(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionSopa> sopas) throws SQLException{
-
-        String sqlSopa = String.format(
-            "INNER JOIN opcionsopa os ON c.id_pedido = os.id " +
-            "WHERE id_mesa = %d", idMesa);
-
-        pstmt = connection.prepareStatement(sql + sqlSopa);
-        rset = pstmt.executeQuery();
-
-        while(rset.next()){
-            sopas.add(new OpcionSopa(rset.getString("nombre")));
-        }
-        return sopas;
-    }
-
-    private List<OpcionPrincipio> obtenerNombrePrincipio(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionPrincipio> principios) throws SQLException{
-    
-        String sqlPrincipio = String.format(
-            "INNER JOIN opcionprincipio op ON c.id_pedido = op.id " +
-            "WHERE id_mesa = %d", idMesa);
-
-        pstmt = connection.prepareStatement(sql + sqlPrincipio);
-        rset = pstmt.executeQuery();
-
-        while (rset.next()){
-            principios.add(new OpcionPrincipio(rset.getString("nombre")));
-        }
-        return principios;
-    }
-
-    private List<OpcionCarne> obtenerNombreCarne(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionCarne> carnes) throws SQLException{
-        
-        String sqlCarne = String.format(
-            "INNER JOIN opcioncarne oc ON c.id_pedido = oc.id " +
-            "WHERE id_mesa = %d", idMesa);
-
-        pstmt = connection.prepareStatement(sql + sqlCarne);
-        rset = pstmt.executeQuery();
-
-        while (rset.next()){
-            carnes.add(new OpcionCarne(rset.getString("nombre")));
-        }
-        return carnes;
-    }
-
-    private List<OpcionEnsalada> obtenerNombreEnsalada(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionEnsalada> ensaladas) throws SQLException{
-        
-        String sqlEnsalada = String.format(
-            "INNER JOIN opcionensalada oe ON c.id_pedido = oe.id " +
-            "WHERE id_mesa = %d", idMesa);
-
-        pstmt = connection.prepareStatement(sql + sqlEnsalada);
-        rset = pstmt.executeQuery();
-
-        while (rset.next()){
-            ensaladas.add(new OpcionEnsalada(rset.getString("nombre")));
-        }
-        return ensaladas;
-    }
-
-    private List<OpcionJugo> obtenerNombreJugo(Connection connection, ResultSet rset, PreparedStatement pstmt, String sql, Integer idMesa, List<OpcionJugo> jugos) throws SQLException{
-        
-        String sqlJugo = String.format(
-            "INNER JOIN opcionJugo oj ON c.id_pedido = oj.id " +
-            "WHERE id_mesa = %d", idMesa);
-
-        pstmt = connection.prepareStatement(sql + sqlJugo);
-        rset = pstmt.executeQuery();
-
-        while (rset.next()){
-            jugos.add(new OpcionJugo(rset.getString("nombre")));
-        }
-        return jugos;
-    }
-
     public List<Pedido> listar(Mesa mesa) throws SQLException{
 
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet rset = null;
         List<Pedido> pedidos = null;
-        List<OpcionSopa> sopas = null;
-        List<OpcionPrincipio> principios = null;
-        List<OpcionCarne> carnes = null;
-        List<OpcionEnsalada> ensaladas = null;
-        List<OpcionJugo> jugos = null;
-        Integer idMesa = mesa.getId();
+
         try {
-            sopas = new ArrayList<>();
-            principios = new ArrayList<>();
-            carnes = new ArrayList<>();
-            ensaladas = new ArrayList<>();
-            jugos = new ArrayList<>();
             // Conexión
             connection = JDBCUtilities.getConnection();
-            String sql = String.format(
-                "SELECT nombre FROM pedido " + 
-                "INNER JOIN corrientazo c ON pedido.id = c.id_pedido ");
-    
-            sopas = obtenerNombreSopa(connection, rset, pstmt, sql, idMesa, sopas);
-            principios = obtenerNombrePrincipio(connection, rset, pstmt, sql, idMesa, principios);
-            carnes = obtenerNombreCarne(connection, rset, pstmt, sql, idMesa, carnes);
-            ensaladas = obtenerNombreEnsalada(connection, rset, pstmt, sql, idMesa, ensaladas);
-            jugos = obtenerNombreJugo(connection, rset, pstmt, sql, idMesa, jugos);
-
-            sql = "SELECT cliente, estado FROM PEDIDO";
+            var sql = "SELECT p.id, p.cliente, p.estado,"
+                    + "         c.precio, c.id_sopa, c.id_principio, c.id_carne, c.id_ensalada, c.id_jugo,"
+                    + "         os.nombre as sopa, op.nombre as principio, oc.nombre as carne, oe.nombre as ensalada, oj.nombre as jugo "
+                    + "FROM PEDIDO p "
+                    + "JOIN Corrientazo c ON (p.id = c.id_pedido) "
+                    + "JOIN OpcionSopa os ON (c.id_sopa  = os.id) "
+                    + "JOIN OpcionPrincipio op ON (c.id_principio  = op.id) "
+                    + "JOIN OpcionCarne oc ON (c.id_carne = oc.id) "
+                    + "LEFT JOIN OpcionEnsalada oe ON (c.id_ensalada = oe.id) "
+                    + "JOIN OpcionJugo oj ON (c.id_jugo = oj.id) "
+                    + "WHERE p.id_mesa = ?;";
+            
             pstmt = connection.prepareStatement(sql);
+            pstmt.setInt(1, mesa.getId());
             rset = pstmt.executeQuery();
 
             pedidos = new ArrayList<>();
-            Integer tSopas = sopas.size(),
-                    tPrinc = principios.size(),
-                    tCarnes = carnes.size(),
-                    tEnsaladas = ensaladas.size(),
-                    tJugos = jugos.size();
-            Integer contador = 0;
-            // Error por aquí: Falta agregar el corrientazo a la BBDD para que pueda traer los nombres
-            while(contador < sopas.size()){
-                Corrientazo almuerzo = new Corrientazo(12_000,
-                                        sopas.get(sopas.size() - tSopas), principios.get(principios.size() - tPrinc),
-                                        carnes.get(carnes.size() - tCarnes), ensaladas.get(ensaladas.size() - tEnsaladas),
-                                        jugos.get(jugos.size() - tJugos));
-                Pedido pedido = new Pedido(rset.getString("cliente"), almuerzo, idMesa);
+        
+            while(rset.next()){
+                // Alimentos para crear almuerzo
+                var sopa = new OpcionSopa(rset.getString("sopa"));
+                sopa.setId(rset.getInt("id_sopa"));
+
+                var principio = new OpcionPrincipio(rset.getString("principio"));
+                principio.setId(rset.getInt("id_sopa"));
+
+                var carne = new OpcionCarne(rset.getString("carne"));
+                carne.setId(rset.getInt("id_carne"));
+
+                OpcionEnsalada ensalada = null;
+                if (rset.getString("ensalada") != null){
+                    ensalada = new OpcionEnsalada(rset.getString("ensalada"));
+                    ensalada.setId(rset.getInt("id_ensalada"));
+                }
+
+                var jugo = new OpcionJugo(rset.getString("jugo"));
+                jugo.setId(rset.getInt("id_jugo"));
+
+                // Creacion de almuerzo
+                Corrientazo almuerzo = new Corrientazo(rset.getInt("precio"), sopa, principio, carne, ensalada, jugo);
+
+                // Creacion del pedido
+                var pedido = new Pedido(rset.getString("cliente"), almuerzo, mesa.getId());
+                pedido.setId(rset.getInt("id"));
+
                 pedidos.add(pedido);
-                tSopas--;
-                tPrinc--;
-                tCarnes--;
-                tEnsaladas--;
-                tJugos--;
-                contador++;
-                rset.next();
             }
         } finally {
             if (connection != null)
@@ -185,9 +109,6 @@ public class PedidoDao {
             pstmt.executeUpdate();
 
             // Agregar Corrientazo
-
-
-
         } finally {
             if (connection != null)
                 connection.close();
