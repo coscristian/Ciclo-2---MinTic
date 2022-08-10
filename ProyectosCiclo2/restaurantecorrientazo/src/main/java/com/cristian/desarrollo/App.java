@@ -11,7 +11,6 @@ public class App {
         // Try with resources --> Cierra automaticamente el flujo que haya creado
         try( var sc = new Scanner(System.in) ){
             var controlador = new RestauranteControlador(sc);
-            controlador.cargarBaseDatos();
             controlador.iniciarAplicacion();
         } catch (Exception e) {
             System.err.println("OCURRIÓ UN ERROR EN LA APLICACIÓN");

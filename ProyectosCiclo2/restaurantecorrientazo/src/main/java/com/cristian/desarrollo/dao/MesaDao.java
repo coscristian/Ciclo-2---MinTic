@@ -1,4 +1,4 @@
-package com.cristian.desarrollo.modelo.dao;
+package com.cristian.desarrollo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.util.JDBCUtilities;

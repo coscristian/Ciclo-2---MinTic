@@ -130,15 +130,27 @@ public class PedidoDao {
             rset = pstmt.executeQuery();
 
             pedidos = new ArrayList<>();
+            Integer tSopas = sopas.size(),
+                    tPrinc = principios.size(),
+                    tCarnes = carnes.size(),
+                    tEnsaladas = ensaladas.size(),
+                    tJugos = jugos.size();
             Integer contador = 0;
             // Error por aquí: Falta agregar el corrientazo a la BBDD para que pueda traer los nombres
-            while(rset.next()){
+            while(contador < sopas.size()){
                 Corrientazo almuerzo = new Corrientazo(12_000,
-                                        sopas.get(contador), principios.get(contador), carnes.get(contador),
-                                        ensaladas.get(contador),jugos.get(contador));
+                                        sopas.get(sopas.size() - tSopas), principios.get(principios.size() - tPrinc),
+                                        carnes.get(carnes.size() - tCarnes), ensaladas.get(ensaladas.size() - tEnsaladas),
+                                        jugos.get(jugos.size() - tJugos));
                 Pedido pedido = new Pedido(rset.getString("cliente"), almuerzo, idMesa);
                 pedidos.add(pedido);
+                tSopas--;
+                tPrinc--;
+                tCarnes--;
+                tEnsaladas--;
+                tJugos--;
                 contador++;
+                rset.next();
             }
         } finally {
             if (connection != null)

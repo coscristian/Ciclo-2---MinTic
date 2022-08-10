@@ -43,28 +43,9 @@ public class Mesa {
         pedidos.add(pedido);
     }
 
-    public Integer calcularValor(){
-/*         Integer valorMesa = 0;
-        if (pedidos.size() > 0){
-            for (Pedido pedido : pedidos) {
-                valorMesa += pedido.calcularValorPedido();
-            }
-        }
-        return valorMesa; */
-        var total = pedidos.stream()
-                .filter(pedido -> pedido.getEstado() == EstadoPedido.PEDIENTE_COBRAR) // Solo pasan al map los estados que esten pendientes por cobrar
-                .map(pedido -> pedido.calcularValor())
-                .reduce((a, b) -> a + b)
-                .orElse(0);
-        return total;
-    }
-
     @Override
     public String toString() {
         return "Mesa [numero=" + numero + "]";
     }
 
-    public void limpiarPedidos() {
-        pedidos.clear();
-    }
 }

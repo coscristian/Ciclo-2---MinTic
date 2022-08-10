@@ -13,6 +13,7 @@ public class Pedido {
     private Corrientazo almuerzo;
     private List<Adicional> adicionales;
     private EstadoPedido estado;
+    private Integer id;
     //EstadoPedido estado;
 
 /*     public Pedido(String nombre) {
@@ -42,6 +43,13 @@ public class Pedido {
 /*     public void setNombre(String nombre) {
         this.nombre = nombre;
     } */
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Corrientazo getAlmuerzo() {
         return almuerzo;
@@ -106,6 +114,4 @@ public class Pedido {
         return "Pedido [cliente=" + cliente + ", almuerzo=" + almuerzo + ", adicionales=" + adicionales + ", estado="
                 + estado + "]";
     }
-
-    
 }

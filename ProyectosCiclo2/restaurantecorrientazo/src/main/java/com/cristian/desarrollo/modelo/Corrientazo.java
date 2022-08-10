@@ -2,6 +2,8 @@ package com.cristian.desarrollo.modelo;
 
 public class Corrientazo {
     private Integer precio;
+    private Integer id;
+
     OpcionSopa sopa;
     OpcionPrincipio principio;
     OpcionCarne carne;
@@ -21,6 +23,14 @@ public class Corrientazo {
         this.carne = carne;
         this.ensalada = ensalada;
         this.jugo = jugo;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getPrecio() {

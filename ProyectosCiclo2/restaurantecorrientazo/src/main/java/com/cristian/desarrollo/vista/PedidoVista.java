@@ -1,5 +1,6 @@
 package com.cristian.desarrollo.vista;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
@@ -23,7 +24,7 @@ public class PedidoVista {
         this.controlador = controlador;
     }
 
-    private OpcionSopa elegirOpcionSopa() {
+    private OpcionSopa elegirOpcionSopa() throws SQLException {
         System.out.println(".: ELIJA SOPA :.");
 
         OpcionSopa respuesta = null;
@@ -54,7 +55,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionPrincipio elegirOpcionPrincipio() {
+    private OpcionPrincipio elegirOpcionPrincipio() throws SQLException {
         System.out.println(".: ELIJA PRINCIPIO :.");
 
         OpcionPrincipio respuesta = null;
@@ -85,7 +86,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionCarne elegirOpcionCarne() {
+    private OpcionCarne elegirOpcionCarne() throws SQLException {
         System.out.println(".: ELIJA CARNE :.");
 
         OpcionCarne respuesta = null;
@@ -116,7 +117,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionEnsalada elegirOpcionEnsalada() {
+    private OpcionEnsalada elegirOpcionEnsalada() throws SQLException {
         System.out.println(".: ELIJA ENSALADA :.");
 
         OpcionEnsalada respuesta = null;
@@ -150,7 +151,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    private OpcionJugo elegirOpcionJugo() {
+    private OpcionJugo elegirOpcionJugo() throws SQLException {
         System.out.println(".: ELIJA JUGO :.");
 
         OpcionJugo respuesta = null;
@@ -181,7 +182,7 @@ public class PedidoVista {
         return respuesta;
     }
 
-    public Pedido pedirInformacionPedido() {
+    public Pedido pedirInformacionPedido() throws SQLException {
         System.out.println(".: INGRESANDO EL PEDIDO :.");
         
         System.out.println("Ingrese nombre (descripción) del cliente: ");
