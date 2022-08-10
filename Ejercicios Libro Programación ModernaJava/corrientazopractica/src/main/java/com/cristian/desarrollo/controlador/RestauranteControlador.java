@@ -137,8 +137,8 @@ public class RestauranteControlador {
             // Agregar adicional a BBDD
             adicionalDao.guardar(adicional);
 
-            // Agregar adicional al pedido especificado (Agregar adicional a la tabla PedidoAdicional en BBDD)
-
+            // Agregar adicional al pedido especificado (Agregar adicional a la tabla PedidoAdicional en BBDD) (Relación Entre las dos tablas)
+            // Crear la clase dao de la relacion entre las dos tablas y agregar el adicional a esa tabla
             // Mostrar mensaje de "ADICIONAL AGREGADO EXITOSAMENTE!!"
         } catch (SQLException e) {
             System.err.println("ERROR AL BUSCAR PEDIDOS EN BBDD: " + e);
