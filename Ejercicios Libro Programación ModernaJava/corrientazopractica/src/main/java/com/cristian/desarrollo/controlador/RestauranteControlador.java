@@ -85,6 +85,10 @@ public class RestauranteControlador {
         return pedidoDao.listar(mesa);
     }
 
+    public List<Adicional> getAdicionales(Mesa mesa, Pedido pedido) throws SQLException {
+        return adicionalDao.listar(mesa, pedido);
+    }   
+
     public List<Mesa> getMesas() throws SQLException {
         return mesaDao.listar();
     }
@@ -139,9 +143,9 @@ public class RestauranteControlador {
             // Buscar el pedido
             var pedidos = getPedidos(mesa);
             Pedido pedido = buscarPedidoPorId(pedidos, adicional.getIdPedido());
-            
+
             // Agregar adicional al pedido especificado
-            pedidoAdicionalDao.guardar(pedido, adicional);
+            pedidoAdicionalDao.guardar(pedido, adicional, mesa);
             
             adicionalVista.mostrarMensaje("MENSAJE: ADICIONAL AGREGADO EXITOSAMENTE!!");
         } catch (SQLException e) {
@@ -152,11 +156,15 @@ public class RestauranteControlador {
     }
 
     public Pedido buscarPedidoPorId(List<Pedido> pedidos, Integer idPedido) {
+        Pedido pedidoEncontrado = null;
         for (Pedido pedido : pedidos) {
             if (pedido.getId() == idPedido){
-                return pedido;
+                pedidoEncontrado = pedido;
+                break;
             }
         }
-        return null;
-    }    
+        return pedidoEncontrado;
+    }
+
+ 
 }

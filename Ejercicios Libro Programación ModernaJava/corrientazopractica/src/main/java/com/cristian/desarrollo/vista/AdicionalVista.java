@@ -1,11 +1,16 @@
 package com.cristian.desarrollo.vista;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
 import com.cristian.desarrollo.modelo.Adicional;
 import com.cristian.desarrollo.modelo.Mesa;
+import com.cristian.desarrollo.util.JDBCUtilities;
 
 public class AdicionalVista {
     
@@ -17,7 +22,7 @@ public class AdicionalVista {
         this.sc = sc;
     }
 
-    public Adicional pedirInformacionAdicional(Mesa mesa) throws InputMismatchException {
+    public Adicional pedirInformacionAdicional(Mesa mesa) throws InputMismatchException, SQLException {
         System.out.println(".: AGREGANDO ADICIONAL :.");
         
         // Pedir info
@@ -33,7 +38,7 @@ public class AdicionalVista {
         System.out.printf("Ingrese el precio del adicional: ");
         Integer precio = sc.nextInt();
         sc.nextLine();
-        
+
         // Crear el adicional --> Generar el consecutivo del adicional
         var adicional = new Adicional(nombre, precio);
         adicional.setIdPedido(idPedido);

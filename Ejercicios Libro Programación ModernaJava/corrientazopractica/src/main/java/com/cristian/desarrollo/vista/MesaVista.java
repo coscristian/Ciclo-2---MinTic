@@ -1,10 +1,13 @@
 package com.cristian.desarrollo.vista;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
+import com.cristian.desarrollo.dao.AdicionalDao;
+import com.cristian.desarrollo.modelo.Adicional;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.Pedido;
 
@@ -53,8 +56,10 @@ public class MesaVista {
     public void mostrarPedidos(Mesa mesa) throws SQLException{
         System.out.printf(".: PEDIDOS DE LA MESA %s :.%n", mesa.getNumero());
         List<Pedido> pedidos = controlador.getPedidos(mesa);
-                
+        List<Adicional> adicionales = new ArrayList<>();
+        
         for (Pedido pedido : pedidos) {
+            
             System.out.println("\t----------------");
             System.out.printf("\tPedido Cliente -> %s %n", pedido.getCliente());
             System.out.printf("\tID -> %d %n", pedido.getId());
@@ -65,12 +70,23 @@ public class MesaVista {
             System.out.printf("\t\tSopa -> %s %n", pedido.getAlmuerzo().getSopa().getNombre());
             System.out.printf("\t\tPrincipio -> %s %n", pedido.getAlmuerzo().getPrincipio().getNombre());
             System.out.printf("\t\tCarne -> %s %n", pedido.getAlmuerzo().getCarne().getNombre());
+            
             String ensalada = null;
             if (pedido.getAlmuerzo().getEnsalada() != null)
                 ensalada = pedido.getAlmuerzo().getEnsalada().getNombre();
             System.out.printf("\t\tEnsalada -> %s %n", ensalada);
             System.out.printf("\t\tJugo -> %s %n", pedido.getAlmuerzo().getJugo().getNombre());
-            System.out.println("\t----------------");
+
+            adicionales = controlador.getAdicionales(mesa, pedido);
+            if ( adicionales.size() > 0 ){ // Si hay adicionales en la consulta
+                System.out.println("\t\t-----------------");
+                System.out.printf("\t\t.: Adicionales :.%n");
+                System.out.println("\t\t-----------------");
+                for (Adicional adicional : adicionales) {
+                    System.out.printf("\t\tNombre -> %s %n", adicional.getNombre());
+                    System.out.printf("\t\t\tPrecio -> %,d %n", adicional.getPrecio());
+                }
+            }
         }
     }
 }
