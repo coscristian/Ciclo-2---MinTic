@@ -6,7 +6,6 @@ import java.util.Scanner;
 import com.cristian.desarrollo.controlador.RestauranteControlador;
 import com.cristian.desarrollo.modelo.Adicional;
 import com.cristian.desarrollo.modelo.Mesa;
-import com.cristian.desarrollo.modelo.Pedido;
 
 public class AdicionalVista {
     
@@ -24,6 +23,7 @@ public class AdicionalVista {
         // Pedir info
         System.out.printf("Ingrese el id del pedido al que va a agregar el adicional: ");
         Integer idPedido = sc.nextInt();
+        sc.nextLine();
 
         // Pedir nombre
         System.out.printf("Ingrese el nombre del adicional: ");
@@ -32,16 +32,16 @@ public class AdicionalVista {
         // Pedir precio
         System.out.printf("Ingrese el precio del adicional: ");
         Integer precio = sc.nextInt();
-
+        sc.nextLine();
+        
         // Crear el adicional --> Generar el consecutivo del adicional
         var adicional = new Adicional(nombre, precio);
         adicional.setIdPedido(idPedido);
 
         return adicional;
+    }
 
-        // Crear clase Dao para guardar el adicional en BBDD
-
-
-        
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
     }
 }

@@ -57,6 +57,7 @@ public class MesaVista {
         for (Pedido pedido : pedidos) {
             System.out.println("\t----------------");
             System.out.printf("\tPedido Cliente -> %s %n", pedido.getCliente());
+            System.out.printf("\tID -> %d %n", pedido.getId());
             System.out.printf("\tEstado -> %s %n", pedido.getEstado());
             System.out.println("\t\t----------------");
             System.out.printf("\t\t.: ALimentos :. %n");

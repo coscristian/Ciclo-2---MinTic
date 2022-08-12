@@ -13,6 +13,7 @@ import com.cristian.desarrollo.dao.OpcionEnsaladaDao;
 import com.cristian.desarrollo.dao.OpcionJugoDao;
 import com.cristian.desarrollo.dao.OpcionPrincipioDao;
 import com.cristian.desarrollo.dao.OpcionSopaDao;
+import com.cristian.desarrollo.dao.PedidoAdicionalDao;
 import com.cristian.desarrollo.dao.PedidoDao;
 import com.cristian.desarrollo.modelo.Adicional;
 import com.cristian.desarrollo.modelo.Mesa;
@@ -44,6 +45,7 @@ public class RestauranteControlador {
     private OpcionJugoDao jugoDao;
     private CorrientazoDao corrientazoDao;
     private AdicionalDao adicionalDao;
+    private PedidoAdicionalDao pedidoAdicionalDao;
 
     // Entrada teclado
     private Scanner sc;
@@ -68,6 +70,7 @@ public class RestauranteControlador {
         this.jugoDao = new OpcionJugoDao();
         this.corrientazoDao = new CorrientazoDao();
         this.adicionalDao = new AdicionalDao();
+        this.pedidoAdicionalDao = new PedidoAdicionalDao();
     }
 
     public Mesa consultarMesa() throws SQLException {
@@ -115,7 +118,7 @@ public class RestauranteControlador {
         Pedido pedido = pedidoVista.pedirInformacionPedido(mesa.getId());
         
         // Agregar el pedido a la BBDD
-        this.pedidoDao.agregar(pedido);
+        this.pedidoDao.agregar(pedido, mesa);
 
         // Guardar el corrientazo del pedido en BBDD
         this.corrientazoDao.guardar(pedido.getAlmuerzo());
@@ -129,32 +132,31 @@ public class RestauranteControlador {
         try {
             // Pedir informacion del adicional
             Adicional adicional = adicionalVista.pedirInformacionAdicional(mesa);
+
+            // Agregar adicional a BBDD
+            adicionalDao.guardar(adicional, mesa);
             
             // Buscar el pedido
             var pedidos = getPedidos(mesa);
             Pedido pedido = buscarPedidoPorId(pedidos, adicional.getIdPedido());
             
-            // Agregar adicional a BBDD
-            adicionalDao.guardar(adicional);
-
-            // Agregar adicional al pedido especificado (Agregar adicional a la tabla PedidoAdicional en BBDD) (Relación Entre las dos tablas)
-            // Crear la clase dao de la relacion entre las dos tablas y agregar el adicional a esa tabla
-            // Mostrar mensaje de "ADICIONAL AGREGADO EXITOSAMENTE!!"
+            // Agregar adicional al pedido especificado
+            pedidoAdicionalDao.guardar(pedido, adicional);
+            
+            adicionalVista.mostrarMensaje("MENSAJE: ADICIONAL AGREGADO EXITOSAMENTE!!");
         } catch (SQLException e) {
-            System.err.println("ERROR AL BUSCAR PEDIDOS EN BBDD: " + e);
+            adicionalVista.mostrarMensaje("MENSAJE: ERROR AL BUSCAR PEDIDOS EN BBDD: " + e);
         }catch( InputMismatchException e){
-            System.err.println("ERROR AL LEER EL ID: " + e);
+            adicionalVista.mostrarMensaje("MENSAJE: ERROR AL LEER EL ID: " + e);
         }
     }
 
     public Pedido buscarPedidoPorId(List<Pedido> pedidos, Integer idPedido) {
-        // Debo setear el id al pedido al traerlo de la bbdd
-        Pedido pedidoEncontrado = null;
         for (Pedido pedido : pedidos) {
-            if (pedido.getId() == idPedido)
-                pedidoEncontrado = pedido;
-                break;
+            if (pedido.getId() == idPedido){
+                return pedido;
+            }
         }
-        return pedidoEncontrado;
+        return null;
     }    
 }

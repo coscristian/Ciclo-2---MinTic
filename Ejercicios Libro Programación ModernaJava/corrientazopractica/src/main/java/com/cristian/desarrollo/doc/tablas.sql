@@ -20,11 +20,12 @@ CREATE TABLE PedidoAdicional(
 );
 
 CREATE TABLE Pedido(
-    id INTEGER PRIMARY KEY,
+    id INTEGER,
     cliente VARCHAR(100) NOT NULL,
     estado VARCHAR(100) NOT NULL,
     id_mesa INTEGER NOT NULL,
-    CONSTRAINT Pedido_id_mesa_FK FOREIGN KEY (id_mesa) REFERENCES Mesa(id)
+    CONSTRAINT Pedido_id_mesa_FK FOREIGN KEY (id_mesa) REFERENCES Mesa(id),
+    CONSTRAINT id_pedido_id_mesa_PK PRIMARY KEY (id, id_mesa)
 );
 
 CREATE TABLE Corrientazo(

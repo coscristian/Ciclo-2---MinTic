@@ -6,17 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.cristian.desarrollo.modelo.Adicional;
+import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.util.JDBCUtilities;
 
 public class AdicionalDao {
-    public void guardar(Adicional adicional) throws SQLException{
+    public void guardar(Adicional adicional, Mesa mesa) throws SQLException{
         PreparedStatement pstmt = null;
         
         try{
             var sql = "INSERT INTO Adicional (id, nombre, precio) VALUES (?, ?, ?)";
             pstmt = JDBCUtilities.getConnection().prepareStatement(sql);
 
-            pstmt.setInt(1, generarConsecutivo());
+            pstmt.setInt(1, generarConsecutivo(mesa, adicional));
             pstmt.setString(2, adicional.getNombre());
             pstmt.setInt(3, adicional.getPrecio());
 
@@ -27,7 +28,7 @@ public class AdicionalDao {
         }
     }
 
-    private int generarConsecutivo() throws SQLException{
+    private int generarConsecutivo(Mesa mesa, Adicional adicional) throws SQLException{
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet rset = null;
@@ -36,7 +37,10 @@ public class AdicionalDao {
             // Conexión
             connection = JDBCUtilities.getConnection();
             // Crear sentencia preparada
-            String sql = "SELECT MAX(id) AS ID FROM Adicional;";
+
+            String sql = String.format(
+                "SELECT MAX(id) AS ID FROM Adicional"
+                + " WHERE id_mesa = %d;", mesa.getId());
             pstmt = connection.prepareStatement(sql);
             
             rset = pstmt.executeQuery();

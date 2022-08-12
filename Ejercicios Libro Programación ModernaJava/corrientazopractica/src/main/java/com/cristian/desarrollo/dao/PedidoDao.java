@@ -87,7 +87,7 @@ public class PedidoDao {
         return pedidos;
     } 
 
-    public void agregar(Pedido pedido) throws SQLException{
+    public void agregar(Pedido pedido, Mesa mesa) throws SQLException{
         Connection connection = null;
         PreparedStatement pstmt = null;
         
@@ -100,7 +100,7 @@ public class PedidoDao {
             String sql = "INSERT INTO PEDIDO (id, cliente, estado, id_mesa) VALUES (?, ?, ?, ?)";
             pstmt = connection.prepareStatement(sql);
             
-            pstmt.setInt(1, generarConsecutivo());
+            pstmt.setInt(1, generarConsecutivo(mesa));
             pstmt.setString(2, pedido.getCliente());
             pstmt.setString(3, String.valueOf(pedido.getEstado()));
             pstmt.setInt(4, pedido.getIdMesa());
@@ -117,7 +117,7 @@ public class PedidoDao {
         }
     }
 
-    private int generarConsecutivo() throws SQLException{
+    private int generarConsecutivo(Mesa mesa) throws SQLException{
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet rset = null;
@@ -126,15 +126,16 @@ public class PedidoDao {
             // Conexión
             connection = JDBCUtilities.getConnection();
             // Crear sentencia preparada
-            String sql = "SELECT MAX(id) AS ID FROM PEDIDO;";
+            String sql = String.format(
+                "SELECT MAX(id) AS ID FROM PEDIDO"
+                + " WHERE id_mesa = %d;", mesa.getId());
             pstmt = connection.prepareStatement(sql);
             
             rset = pstmt.executeQuery();
 
-            if(rset.next()){
+            if(rset.next()){ // Si hay datos
                 consecutivo = rset.getInt("ID");
             }
-
             consecutivo += 1;
             
         } finally {
