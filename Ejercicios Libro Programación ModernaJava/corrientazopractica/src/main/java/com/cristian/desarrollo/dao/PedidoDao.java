@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cristian.desarrollo.modelo.Corrientazo;
+import com.cristian.desarrollo.modelo.EstadoPedido;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.OpcionCarne;
 import com.cristian.desarrollo.modelo.OpcionEnsalada;
@@ -73,6 +74,7 @@ public class PedidoDao {
                 // Creacion del pedido
                 var pedido = new Pedido(rset.getString("cliente"), almuerzo, mesa.getId());
                 pedido.setId(rset.getInt("id"));
+                pedido.setEstado(EstadoPedido.valueOf(rset.getString("estado")));
 
                 pedidos.add(pedido);
             }
@@ -147,5 +149,24 @@ public class PedidoDao {
                 rset.close();
         }
         return consecutivo;
+    }
+
+    public void entregarPedido(Mesa mesa, Pedido pedido) throws SQLException {
+        PreparedStatement pstmt = null;
+        try{
+            var sql = "UPDATE Pedido" 
+                + " SET estado = ?"
+                + " WHERE id = ?"
+                + " AND id_mesa = ?;";
+            pstmt = JDBCUtilities.getConnection().prepareStatement(sql);
+            pstmt.setString(1, EstadoPedido.PENDIENTE_COBRAR.toString());
+            pstmt.setInt(2, pedido.getId());
+            pstmt.setInt(3, mesa.getId());
+
+            pstmt.executeUpdate();
+        }finally{
+            if (pstmt != null)
+                pstmt.close();
+        }
     }
 }

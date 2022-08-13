@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import com.cristian.desarrollo.dao.AdicionalDao;
 import com.cristian.desarrollo.dao.CorrientazoDao;
@@ -15,7 +16,10 @@ import com.cristian.desarrollo.dao.OpcionPrincipioDao;
 import com.cristian.desarrollo.dao.OpcionSopaDao;
 import com.cristian.desarrollo.dao.PedidoAdicionalDao;
 import com.cristian.desarrollo.dao.PedidoDao;
+import com.cristian.desarrollo.exception.EstadoException;
+import com.cristian.desarrollo.exception.PagoException;
 import com.cristian.desarrollo.modelo.Adicional;
+import com.cristian.desarrollo.modelo.EstadoPedido;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.OpcionCarne;
 import com.cristian.desarrollo.modelo.OpcionEnsalada;
@@ -143,6 +147,8 @@ public class RestauranteControlador {
             // Buscar el pedido
             var pedidos = getPedidos(mesa);
             Pedido pedido = buscarPedidoPorId(pedidos, adicional.getIdPedido());
+            
+            pedido.agregarAdicional(adicional);
 
             // Agregar adicional al pedido especificado
             pedidoAdicionalDao.guardar(pedido, adicional, mesa);
@@ -166,5 +172,68 @@ public class RestauranteControlador {
         return pedidoEncontrado;
     }
 
- 
+    public void entregarPedido(Mesa mesa) {
+        try {
+            // Pedir el id del pedido a entregar
+            Integer idPedido = pedidoVista.pedirIdPedido();
+
+            // Buscar el pedido
+            var pedidos = getPedidos(mesa);
+            Pedido pedido = buscarPedidoPorId(pedidos, idPedido);
+
+            // Cambiar el estado del pedido 
+            if (pedido.getEstado() == EstadoPedido.PENDIENTE_COBRAR){
+                throw new EstadoException("MENSAJE: El pedido ya se encuentra en estado " + EstadoPedido.PENDIENTE_COBRAR.toString());
+            }else{
+                pedidoDao.entregarPedido(mesa, pedido);
+            }
+            // Avisar al usuario
+            pedidoVista.mostrarMensaje("MENSAJE: Pedido Entregado Correctamente");
+        } catch (InputMismatchException e) {
+            pedidoVista.mostrarMensaje("ERROR: Valor no valido ->" + e.getMessage());
+        }catch (SQLException e){
+            pedidoVista.mostrarMensaje("ERROR: Error en la BBDD -> " + e.getMessage());
+        }catch (EstadoException e){
+            pedidoVista.mostrarMensaje(e.getMessage());
+        }
+    }
+
+    public void pagarCuenta(Mesa mesa){
+
+        try {
+            var pedidos = getPedidos(mesa)
+                    .stream()
+                    .filter(pedido -> pedido.getEstado() == EstadoPedido.PENDIENTE_COBRAR)
+                    .collect(Collectors.toList());
+
+            Integer cuentaPedidos = 0;
+            for (Pedido pedido : pedidos) {
+                cuentaPedidos += pedido.getAlmuerzo().getPrecio();
+            }
+
+            Integer valorAdicionales = 0;
+            for (Pedido pedido : pedidos) {
+                for (Adicional adicional : getAdicionales(mesa, pedido)) {
+                    valorAdicionales += adicional.getPrecio();
+                }
+            }
+
+            Integer cuentaMesa = cuentaPedidos + valorAdicionales;
+
+            mesaVista.mostrarMensaje(String.format("La cuenta es $%,d", cuentaMesa));
+            Integer efectivo = mesaVista.pedirEfectivo();
+            
+            Integer devuelta = efectivo - cuentaMesa;
+
+            if (efectivo < cuentaMesa)
+                throw new PagoException("El valor del efectivo no es suficiente para pagar la cuenta.");
+            
+            mesaVista.mostrarMensaje(String.format("MENSAJE: La devuelta es -> $%,d", devuelta));
+            mesaVista.mostrarMensaje("MENSAJE: Cuenta pagada correctamente");
+        } catch (SQLException e) {
+            mesaVista.mostrarMensaje("MENSAJE: ERROR EN BBDD -> " + e.getMessage());
+        } catch (PagoException e){
+            mesaVista.mostrarMensaje("MENSAJE: " + e.getMessage());
+        }
+    }
 }

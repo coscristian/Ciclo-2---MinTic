@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
-import com.cristian.desarrollo.dao.AdicionalDao;
 import com.cristian.desarrollo.modelo.Adicional;
 import com.cristian.desarrollo.modelo.Mesa;
 import com.cristian.desarrollo.modelo.Pedido;
@@ -88,6 +87,20 @@ public class MesaVista {
                 }
             }
         }
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        System.out.println(mensaje);
+    }
+
+    public Integer pedirEfectivo() {
+        System.out.println(".: SOLICITANDO EFECTIVO :.");
+        
+        System.out.printf("Ingrese el valor del efectivo: ");
+        Integer efectivo = sc.nextInt();
+        sc.nextLine();
+
+        return efectivo;
     }
 }
 

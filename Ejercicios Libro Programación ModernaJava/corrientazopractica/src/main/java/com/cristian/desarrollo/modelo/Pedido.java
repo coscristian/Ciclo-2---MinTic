@@ -69,7 +69,7 @@ public class Pedido {
         this.adicionales.add(adicional);
     }
 
-    public Integer calcularValorPedido(){
+    public Integer calcularValor(){
 
         return almuerzo.getPrecio() + 
                 adicionales.stream()

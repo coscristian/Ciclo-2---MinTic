@@ -1,6 +1,7 @@
 package com.cristian.desarrollo.vista;
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
@@ -174,5 +175,15 @@ public class PedidoVista {
 
     public void mostrarMensaje(String mensaje) {
         System.out.println(mensaje);
+    }
+
+    public Integer pedirIdPedido() throws InputMismatchException {
+        System.out.println(".: ENTREGANDO PEDIDO :.");
+        
+        System.out.printf("Ingrese el ID del pedido a entregar: ");
+        Integer idPedido = sc.nextInt();
+        sc.nextLine();
+
+        return idPedido;
     }
 }
