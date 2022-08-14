@@ -169,4 +169,73 @@ public class PedidoDao {
                 pstmt.close();
         }
     }
+
+    public void eliminarPedidosDeMesa(Mesa mesa) throws SQLException{
+        PreparedStatement stmt1 = null;
+        PreparedStatement stmt2 = null;
+        PreparedStatement stmt3 = null;
+        PreparedStatement stmt4 = null;
+
+        try{
+            stmt1 = JDBCUtilities.getConnection()
+                    .prepareStatement("DELETE"
+                            + " FROM Corrientazo"
+                            + " WHERE id_pedido IN ("
+                            + "     SELECT id"
+                            + "     FROM Pedido"
+                            + "     WHERE id_mesa = ?"
+                            + "     AND estado = ?"
+                            + ");");
+            stmt1.setInt(1, mesa.getId());
+            stmt1.setString(2, EstadoPedido.PENDIENTE_COBRAR.toString());
+            stmt1.executeUpdate();
+
+            // Eliminar los adicionales del pedido.
+            stmt2 = JDBCUtilities.getConnection()
+                    .prepareStatement("DELETE"
+                            + " FROM Adicional"
+                            + " WHERE id IN ("
+                            + "     SELECT id_adicional"
+                            + "     FROM PedidoAdicional"
+                            + "     WHERE id_mesa = ?"
+                            + "     AND id_pedido IN ("
+                            + "             SELECT id"
+                            + "             FROM PEDIDO"
+                            + "             WHERE id_mesa = ?"
+                            + "             AND estado = ?"
+                            + "     )"
+                            + " );");
+            stmt2.setInt(1, mesa.getId());
+            stmt2.setInt(2, mesa.getId());
+            stmt2.setString(3, EstadoPedido.PENDIENTE_COBRAR.toString());
+            stmt2.executeUpdate();
+
+            // Eliminar la relación en la tabla PedidoAdicional
+            stmt3 = JDBCUtilities.getConnection()
+                    .prepareStatement("DELETE"
+                            + " FROM PedidoAdicional"
+                            + " WHERE id_mesa = ?"
+                            + " AND id_pedido IN ("
+                            + "     SELECT id"
+                            + "     FROM Pedido"
+                            + "     WHERE id_mesa = ?"
+                            + "     AND estado = ?"
+                            + ");");
+            stmt3.setInt(1, mesa.getId());
+            stmt3.setInt(2, mesa.getId());
+            stmt3.setString(3, EstadoPedido.PENDIENTE_COBRAR.toString());
+            stmt3.executeUpdate();
+
+            stmt4 = JDBCUtilities.getConnection()
+                    .prepareStatement("DELETE FROM Pedido WHERE id_mesa = ? AND estado = ?;");
+            stmt4.setInt(1, mesa.getId());
+            stmt4.setString(2, EstadoPedido.PENDIENTE_COBRAR.toString());
+            stmt4.executeUpdate();
+        }finally{
+            if (stmt1 != null)
+                stmt1.close();
+            if (stmt2 != null)
+                stmt2.close();
+        }
+    }
 }

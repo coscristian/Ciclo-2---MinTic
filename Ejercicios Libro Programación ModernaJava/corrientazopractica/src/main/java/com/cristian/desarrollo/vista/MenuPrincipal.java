@@ -52,6 +52,7 @@ public class MenuPrincipal {
     private void pagoDeMesas() throws SQLException{
         var mesa = controlador.consultarMesa();
         controlador.pagarCuenta(mesa);
+        
     }
 
     private void abrirMenuGestionPedidos() throws SQLException {

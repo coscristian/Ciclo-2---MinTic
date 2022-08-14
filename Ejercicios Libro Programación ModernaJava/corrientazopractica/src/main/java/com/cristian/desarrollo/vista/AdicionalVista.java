@@ -1,8 +1,5 @@
 package com.cristian.desarrollo.vista;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -10,7 +7,6 @@ import java.util.Scanner;
 import com.cristian.desarrollo.controlador.RestauranteControlador;
 import com.cristian.desarrollo.modelo.Adicional;
 import com.cristian.desarrollo.modelo.Mesa;
-import com.cristian.desarrollo.util.JDBCUtilities;
 
 public class AdicionalVista {
     

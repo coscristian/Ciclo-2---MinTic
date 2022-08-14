@@ -227,7 +227,9 @@ public class RestauranteControlador {
 
             if (efectivo < cuentaMesa)
                 throw new PagoException("El valor del efectivo no es suficiente para pagar la cuenta.");
-            
+
+            pedidoDao.eliminarPedidosDeMesa(mesa);
+
             mesaVista.mostrarMensaje(String.format("MENSAJE: La devuelta es -> $%,d", devuelta));
             mesaVista.mostrarMensaje("MENSAJE: Cuenta pagada correctamente");
         } catch (SQLException e) {
