@@ -34,7 +34,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
-        setSize(800, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         
         this.controlador = new RestauranteGUIController();
