@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.cristian.desarrollo.controlador.RestauranteControlador;
-import com.cristian.desarrollo.exception.PagoException;
 
 public class MenuPrincipal {
     private Scanner sc;
@@ -52,7 +51,7 @@ public class MenuPrincipal {
     private void pagoDeMesas() throws SQLException{
         var mesa = controlador.consultarMesa();
         controlador.pagarCuenta(mesa);
-        
+
     }
 
     private void abrirMenuGestionPedidos() throws SQLException {
